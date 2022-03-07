@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+{{ super() }}
+<style>
+    img{
+        width: 13em;
+    }
+    p { 
+    text-transform: uppercase; /* Заглавные буквы */
+     }
+</style>
+<div class="container">
+    <h1 class="text-center mt-5">Добро пожаловать в</h1>
+    <img src="../static/logo.png" class="center mt-3" alt="Логотип" srcset="" width="100px" width="50px">
+</div>
+<!-- <div class="container">
+    <button class="btn btn-primary col-12">Продолжить</button>
+    <p class="link-primary text-center"><a href="{{url_for('registration')}}"><u>ЗАРЕГИСТРИРОВАТЬСЯ</u></p>
+</div> -->
+<div class="position-absolute fixed-bottom container mb-4 d-grid gap-2 col-11 col-md-7 col-lg-3 mx-auto">
+    <button class="btn btn-danger" type="button">Продолжить</button>
+    <p class="text-center"><a class="badge" href="{{url_for('login')}}">Войти, как администратор</u></a></p>
+</div>
+  
+{% endblock %}

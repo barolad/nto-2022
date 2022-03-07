@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+{{ super() }}
+<style>
+    body{
+      background-color: #f9f9f9;
+    }
+    img{
+      width: 13em;
+    }
+</style>
+<section class="contact">
+  <div class="container mt-2">
+    <img src="../static/logo.png" class="center mt-3" alt="Логотип" srcset="" width="100px" width="50px">        
+    {% for cat,msg in get_flashed_messages(True) %}
+    <div class="{{cat}}" role="alert">
+        {{msg}}
+    </div>
+    {% endfor %}
+    <form action='/registration' method='post' class="row g-2 needs-validation mt-2" novalidate>
+      <div class="col-12">
+        <label for="validationCustom01" class="form-label">Введите логин</label>
+        <input type="text" class="form-control" name='username' id="validationCustom01" required>
+      </div>
+      <div class="col-12">
+        <label for="validationCustom01" class="form-label">Введите имя</label>
+        <input type="text" class="form-control" name='firstname' id="validationCustom01" required>
+      </div>
+      <div class="col-12">
+        <label for="exampleFormControlInput1" class="form-label">Пароль</label>
+        <div class="input-group">
+          <input type="password" name='psw' class="form-control" id="exampleFormControlInput1" aria-describedby="passwordHelpBlock" required>
+        </div>
+      </div>
+      <div class="col-12">
+        <label for="exampleFormControlInput1" class="form-label">Повтор пароля</label>
+        <div class="input-group">
+          <input type="password" name='psw2' class="form-control" id="exampleFormControlInput1" aria-describedby="passwordHelpBlock" required>
+        </div>
+      </div>
+      <div class="d-grid gap-2 d-md-block">
+        <button class="btn btn-danger mt-3" type="submit" style="height: 66px;">Зарегистрировать</button>
+      </div>
+      <div class="container col-12">
+          <p class="link-primary text-center mt-2"><a href="{{url_for('index')}}"><u>НА ГЛАВНУЮ</u></a></p>
+      </div>
+    </form>
+  </div> 
+</section>
+{% endblock %}
