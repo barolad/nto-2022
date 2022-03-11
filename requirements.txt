@@ -1,0 +1,7 @@
+Flask==2.0.3
+Flask_Login==0.5.0
+Flask_SQLAlchemy==2.5.1
+PyAutoGUI==0.9.53
+PyMySQL==1.0.2
+SQLAlchemy==1.4.32
+Werkzeug==2.0.3

@@ -25,6 +25,35 @@ class DataBaseAPI:
                                    Column('psw', Text(), primary_key=False, nullable=False),
                                    Column('time', Text(), primary_key=False, nullable=False),
                                    )
+        self.__exibit_table = Table('exibit', self.__metadata,
+                                    Column('exId', Integer(), primary_key=True, autoincrement=True),
+                                    Column('exName', Text(), primary_key=False, nullable=False),
+                                    Column('exIdroom', Integer(), primary_key=False, nullable=False),
+                                    Column('z1', Text(), primary_key=False, nullable=False),
+                                    Column('z2', Text(), primary_key=False, nullable=False),
+                                    Column('z3', Text(), primary_key=False, nullable=False),
+                                    Column('z4', Text(), primary_key=False, nullable=False),
+                                    Column('z5', Text(), primary_key=False, nullable=False),
+                                    Column('z6', Text(), primary_key=False, nullable=False),
+                                    Column('z7', Text(), primary_key=False, nullable=False),
+                                    Column('z8', Text(), primary_key=False, nullable=False),
+                                    )
+        self.__path_table = Table('path', self.__metadata,
+                                  Column('phId', Text(), primary_key=True),
+                                  Column('phFull', Text(), primary_key=False, nullable=False),
+                                  )
+        self.__records_table = Table('records', self.__metadata,
+                                     Column('id', Integer(), primary_key=True, autoincrement=True),
+                                     Column('time', Text(), primary_key=False, nullable=False),
+                                     Column('exibitId', Integer(), primary_key=False, nullable=False),
+                                     Column('timeSpentInFrontSec', Integer(), primary_key=False, nullable=False),
+                                     Column('visualFeedback', Integer(), primary_key=False, nullable=False),
+                                     Column('description', Integer(), primary_key=False, nullable=False),
+                                     Column('completeness', Integer(), primary_key=False, nullable=False),
+                                     )
+        self.__blob_table = Table('blob', self.__metadata,
+                                     Column('blobs', BLOB(), primary_key=False, nullable=False),
+                                     )
         self.__metadata.create_all(self.__engine)
 
     def addUser(self, username, firstname, hpsw):
@@ -58,7 +87,11 @@ class DataBaseAPI:
             if select_result is None:
                 flash("Пользователь не найден", category='alert alert-danger')
                 return False
+            # if select_result["psw"] != hpsw:
+            #    flash("Попытка взлома: ошибка при сверении хэшей паролей")
+            #    return False
             output = dict(select_result)
+            # del output["psw"]
             return output
         except BaseException as e:
             print("Ошибка получения данных из БД " + str(e))
@@ -86,11 +119,76 @@ class DataBaseAPI:
         return True
 
 
-    def getData(self, user_id):
+    def addFeedback(self, username, email, text):
         try:
-            select_query = select([self.__user_data_table]).where(
-                self.__user_data_table.c.user_id == user_id
-            ).order_by(self.__user_data_table.c.date.desc())
+            timestamp = now.strftime("%d-%m-%Y %H:%M")
+            insert_query = insert(self.__feedback_table).values(
+                username=username,
+                email=email,
+                text=text,
+                time=timestamp
+            )
+            self.__connection.execute(insert_query)
+        except BaseException as e:
+            print("Ошибка отправки сообщения " + str(e))
+            return False
+        return True
+
+    def getUserData(self):
+        try:
+            select_query = select([self.__user_data_table])
+            select_result = self.__connection.execute(select_query)
+            if select_result is None:
+                flash("Пользователь не найден", category='alert alert-danger')
+                return False
+            return select_result
+        except BaseException as e:
+            print("Ошибка добавления записи" + str(e))
+            return False
+        return True
+
+    def getPathData(self):
+        try:
+            select_query = select([self.__path_table])
+            select_result = self.__connection.execute(select_query)
+            if select_result is None:
+                flash("Пользователь не найден", category='alert alert-danger')
+                return False
+            return select_result
+        except BaseException as e:
+            print("Ошибка добавления записи" + str(e))
+            return False
+        return True
+
+    def getRecordData(self):
+        try:
+            select_query = select([self.__records_table]).order_by(self.__records_table.c.time.desc())
+            select_result = self.__connection.execute(select_query)
+            if select_result is None:
+                flash("Пользователь не найден", category='alert alert-danger')
+                return False
+            return select_result
+        except BaseException as e:
+            print("Ошибка добавления записи" + str(e))
+            return False
+        return True
+
+    def getExibitData(self):
+        try:
+            select_query = select([self.__exibit_table])
+            select_result = self.__connection.execute(select_query)
+            if select_result is None:
+                flash("Пользователь не найден", category='alert alert-danger')
+                return False
+            return select_result
+        except BaseException as e:
+            print("Ошибка добавления записи" + str(e))
+            return False
+        return True
+
+    def getBLOBData(self):
+        try:
+            select_query = select([self.__blob_table])
             select_result = self.__connection.execute(select_query)
             if select_result is None:
                 flash("Пользователь не найден", category='alert alert-danger')

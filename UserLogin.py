@@ -1,6 +1,7 @@
 from flask_login import UserMixin
 from flask import url_for
 from flask import Flask, render_template, request, session, url_for, flash, redirect, abort, g, make_response
+import pyautogui
 
 app = Flask(__name__)
 
@@ -21,3 +22,6 @@ class UserLogin(UserMixin):
 
     def getFirstName(self):
         return self.__user['firstname'] if self.__user else "Ингиборга"
+
+    def takescreen(self):
+        im1=pyautogui.screenshot('papa.png')
