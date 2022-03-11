@@ -1,0 +1,548 @@
+{% extends 'base.html' %}
+{% block content %}
+{{ super() }}
+<script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+<script src="https://libs.zappar.com/zappar-aframe/0.3.29/zappar-aframe.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script> 
+    AFRAME.registerComponent("visibility-changer", { 
+      init: function () { 
+        this.el.setAttribute("visible", false); 
+        this.el.sceneEl.addEventListener("zappar-visible", () => 
+          this.el.setAttribute("visible", true) 
+        ); 
+      }, 
+    }); 
+    AFRAME.registerComponent("collider-check", { 
+      dependencies: ["raycaster"], 
+      init: function () { 
+        this.el.addEventListener("raycaster-intersection", function () { 
+          const model = document.getElementById("model"); 
+          model.setAttribute("animation-mixer", "clip:null"); 
+          model.setAttribute( 
+            "animation-mixer", 
+            "clip: Armature|mixamo.com|Layer0; repetitions : 1" 
+          ); 
+        }); 
+      }, 
+    }); 
+</script> 
+<script>
+    var step_2_list = new Array('','{{url_for("static", filename="audio-gid/f_1.mp3")}}',
+            '{{url_for("static", filename="audio-gid/f_2.mp3")}}',
+            '{{url_for("static", filename="audio-gid/f_3.mp3")}}',
+            '{{url_for("static", filename="audio-gid/f_4.mp3")}}',
+            '{{url_for("static", filename="audio-gid/f_5.mp3")}}',
+            '{{url_for("static", filename="audio-gid/f_6.mp3")}}',
+            '{{url_for("static", filename="audio-gid/f_7.mp3")}}',
+            '{{url_for("static", filename="audio-gid/f_8.mp3")}}'
+            );
+    
+    function initElement() {
+        
+    };
+    function step_1() {      
+        var audio = new Audio('{{url_for("static", filename="audio-gid/first.mp3")}}');
+        audio.play();
+        document.getElementById("starte").remove();
+        document.getElementById("startep").remove();
+        
+        var b2 = document.getElementById("lavka");
+        b2.style.display = b2.style.display === 'none' ? '' : 'none';
+        var b3 = document.getElementById("lavkap");
+        b3.style.display = b3.style.display === 'none' ? '' : 'none';
+    };
+    function step_2() {
+        var audio = new Audio(step_2_list[{{list[1]}}]);
+        audio.play();
+        document.getElementById("lavka").remove();
+        document.getElementById("lavkap").remove();
+        var b4 = document.getElementById("step_3");
+        b4.style.display = b4.style.display === 'none' ? '' : 'none';
+    };
+</script>
+
+
+<style>
+</style>
+<script>
+    function capture() {
+        document.querySelector('a-scene').components.screenshot.capture('perspective')
+    }
+</script>
+<body onload="initElement();"> 
+<!-- Modal -->
+<div class="modal fade" id="ModalRight" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <img src="https://i.imgur.com/viYqn6S.jpg" class="center" width="200px" alt="" srcset="">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="ModalLeft" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <img src="https://i.imgur.com/d3IWAAL.jpg" class="center" width="200px" alt="" srcset="">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="ModalRoom" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <img src="https://i.imgur.com/WeMUS8H.jpg" class="center" width="200px" alt="" srcset="">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<nav class="fixed-top">
+        <ul class="nav nav-pills d-flex justify-content-between">
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:capture()"><span class="material-icons-outlined">screenshot</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{url_for('gid')}}"><span class="material-icons-outlined">login</span></a>
+            </li>
+        </ul>
+    </nav>
+    <div class="container">
+        <button class="btn btn-primary fixed-bottom mx-2 mb-2" id='lavka' style="display:none;" onclick="step_2(); showContent({{list[1]}})">Продолжить</button>
+        <img src="../static/audio-gid/1.png" class="center mt-5" id="lavkap" alt="" style="display:none;" width="300px">
+        <button class="btn btn-danger fixed-bottom mx-2 mb-2" id='starte' onclick="step_1();">Начать</button>
+        <img src="../static/audio-gid/2.png" class="center mt-5" id="startep" alt="" width="300px">
+    </div>
+    <div id="contentBody" style="width: 100%; height: 100%;">  
+    </div>  
+  
+    <div id="loading" style="display: none">  
+    Идет загрузка...  
+    </div> 
+<div id="step_3" style="display: none;">
+
+<a href="{{url_for('gid')}}" class="btn btn-danger fixed-bottom mx-2 mb-2">Завершить экскурсию</a>
+{%for i in range(lena-1,1,-1)%}
+<button style="display: block;" class="btn btn-danger fixed-bottom mx-2 mb-2" id='{{list[i]}}' onclick="play_{{list[i]}}(); showContent({{list[i]}});">К следующему ({{list[i]}})</button>
+{%endfor%}
+<script>
+    var mem = {{prom}};
+    mem = mem.toString();
+    mem = Array.from(mem);
+
+    var myModalRight = new bootstrap.Modal(document.getElementById("ModalRight"), {});
+    document.onreadystatechange = function () {
+    };
+    var myModalLeft = new bootstrap.Modal(document.getElementById("ModalLeft"), {});
+    document.onreadystatechange = function () {
+    };
+    var myModalRoom = new bootstrap.Modal(document.getElementById("ModalRoom"), {});
+    document.onreadystatechange = function () {
+    };
+
+    var hod = 1;
+
+    function play(hod) {
+        var list_from_1 = new Array('', '{{url_for("static", filename="audio-gid/1.mp3")}}',
+            '{{url_for("static", filename="audio-gid/right.mp3")}}',
+            '{{url_for("static", filename="audio-gid/3.mp3")}}',
+            '{{url_for("static", filename="audio-gid/4.mp3")}}',
+            '{{url_for("static", filename="audio-gid/5.mp3")}}',
+            '{{url_for("static", filename="audio-gid/6.mp3")}}',
+            '{{url_for("static", filename="audio-gid/7.mp3")}}',
+            '{{url_for("static", filename="audio-gid/8.mp3")}}'
+            );
+
+        var list_from_2 = new Array('', '{{url_for("static", filename="audio-gid/left.mp3")}}',
+            '{{url_for("static", filename="audio-gid/2.mp3")}}',
+            '{{url_for("static", filename="audio-gid/3.mp3")}}',
+            '{{url_for("static", filename="audio-gid/4.mp3")}}',
+            '{{url_for("static", filename="audio-gid/5.mp3")}}',
+            '{{url_for("static", filename="audio-gid/6.mp3")}}',
+            '{{url_for("static", filename="audio-gid/7.mp3")}}',
+            '{{url_for("static", filename="audio-gid/8.mp3")}}'
+            );
+
+        var list_from_3 = new Array('', '{{url_for("static", filename="audio-gid/1.mp3")}}',
+            '{{url_for("static", filename="audio-gid/2.mp3")}}',
+            '{{url_for("static", filename="audio-gid/3.mp3")}}',
+            '{{url_for("static", filename="audio-gid/left.mp3")}}',
+            '{{url_for("static", filename="audio-gid/5.mp3")}}',
+            '{{url_for("static", filename="audio-gid/6.mp3")}}',
+            '{{url_for("static", filename="audio-gid/7.mp3")}}',
+            '{{url_for("static", filename="audio-gid/8.mp3")}}'
+            );
+        
+        var list_from_4 = new Array('', '{{url_for("static", filename="audio-gid/1.mp3")}}',
+            '{{url_for("static", filename="audio-gid/2.mp3")}}',
+            '{{url_for("static", filename="audio-gid/right.mp3")}}',
+            '{{url_for("static", filename="audio-gid/4.mp3")}}',
+            '{{url_for("static", filename="audio-gid/5.mp3")}}',
+            '{{url_for("static", filename="audio-gid/6.mp3")}}',
+            '{{url_for("static", filename="audio-gid/7.mp3")}}',
+            '{{url_for("static", filename="audio-gid/8.mp3")}}'
+            );
+
+            var list_from_5 = new Array('', '{{url_for("static", filename="audio-gid/1.mp3")}}',
+            '{{url_for("static", filename="audio-gid/2.mp3")}}',
+            '{{url_for("static", filename="audio-gid/3.mp3")}}',
+            '{{url_for("static", filename="audio-gid/4.mp3")}}',
+            '{{url_for("static", filename="audio-gid/5.mp3")}}',
+            '{{url_for("static", filename="audio-gid/right.mp3")}}',
+            '{{url_for("static", filename="audio-gid/right.mp3")}}',
+            '{{url_for("static", filename="audio-gid/right.mp3")}}'
+            );
+            
+            var list_from_6 = new Array('', '{{url_for("static", filename="audio-gid/1.mp3")}}',
+            '{{url_for("static", filename="audio-gid/2.mp3")}}',
+            '{{url_for("static", filename="audio-gid/3.mp3")}}',
+            '{{url_for("static", filename="audio-gid/4.mp3")}}',
+            '{{url_for("static", filename="audio-gid/left.mp3")}}',
+            '{{url_for("static", filename="audio-gid/6.mp3")}}',
+            '{{url_for("static", filename="audio-gid/right.mp3")}}',
+            '{{url_for("static", filename="audio-gid/right.mp3")}}'
+            );
+
+            var list_from_7 = new Array('', '{{url_for("static", filename="audio-gid/1.mp3")}}',
+            '{{url_for("static", filename="audio-gid/2.mp3")}}',
+            '{{url_for("static", filename="audio-gid/3.mp3")}}',
+            '{{url_for("static", filename="audio-gid/4.mp3")}}',
+            '{{url_for("static", filename="audio-gid/left.mp3")}}',
+            '{{url_for("static", filename="audio-gid/left.mp3")}}',
+            '{{url_for("static", filename="audio-gid/7.mp3")}}',
+            '{{url_for("static", filename="audio-gid/right.mp3")}}'
+            );
+
+            var list_from_8 = new Array('', '{{url_for("static", filename="audio-gid/1.mp3")}}',
+            '{{url_for("static", filename="audio-gid/2.mp3")}}',
+            '{{url_for("static", filename="audio-gid/3.mp3")}}',
+            '{{url_for("static", filename="audio-gid/4.mp3")}}',
+            '{{url_for("static", filename="audio-gid/left.mp3")}}',
+            '{{url_for("static", filename="audio-gid/left.mp3")}}',
+            '{{url_for("static", filename="audio-gid/left.mp3")}}',
+            '{{url_for("static", filename="audio-gid/8.mp3")}}'
+            );
+
+        if (hod==1) {
+            var from = mem[0];
+            var to = mem[1];
+        } else if (hod==2) {
+            var from = mem[1];
+            var to = mem[2];
+        } else if (hod==3) {
+            var from = mem[2];
+            var to = mem[3];
+        } else if (hod==4) {
+            var from = mem[3];
+            var to = mem[4];
+        } else if (hod==5) {
+            var from = mem[4];
+            var to = mem[5];
+        } else if (hod==6) {
+            var from = mem[5];
+            var to = mem[6];
+        } else if (hod==7) {
+            var from = mem[6];
+            var to = mem[7];
+        };
+
+        if (from==1) {
+            var audio = new Audio(list_from_1[to]);
+        } else if (from==2) {
+            var audio = new Audio(list_from_2[to]);
+        } else if (from==3) {
+            var audio = new Audio(list_from_3[to]);
+        } else if (from==4) {
+            var audio = new Audio(list_from_4[to]);
+        } else if (from==5) {
+            var audio = new Audio(list_from_5[to]);
+        } else if (from==6) {
+            var audio = new Audio(list_from_6[to]);
+        } else if (from==7) {
+            var audio = new Audio(list_from_7[to]);
+        } else if (from==8) {
+            var audio = new Audio(list_from_8[to]);
+        }
+        audio.play();
+
+    };
+
+    function momo(hod) {
+
+        var list_from_11 = new Array('', '{{Exibits[0][3]}}',
+            '{{Exibits[0][4]}}',
+            '{{Exibits[0][5]}}',
+            '{{Exibits[0][6]}}',
+            '{{Exibits[0][7]}}',
+            '{{Exibits[0][8]}}',
+            '{{Exibits[0][9]}}',
+            '{{Exibits[0][10]}}'
+            );
+            var list_from_12 = new Array('', '{{Exibits[1][3]}}',
+            '{{Exibits[1][4]}}',
+            '{{Exibits[1][5]}}',
+            '{{Exibits[1][6]}}',
+            '{{Exibits[1][7]}}',
+            '{{Exibits[1][8]}}',
+            '{{Exibits[1][9]}}',
+            '{{Exibits[1][10]}}'
+            );
+            var list_from_13 = new Array('', '{{Exibits[2][3]}}',
+            '{{Exibits[2][4]}}',
+            '{{Exibits[2][5]}}',
+            '{{Exibits[2][6]}}',
+            '{{Exibits[2][7]}}',
+            '{{Exibits[2][8]}}',
+            '{{Exibits[2][9]}}',
+            '{{Exibits[2][10]}}'
+            );
+            var list_from_14 = new Array('', '{{Exibits[3][3]}}',
+            '{{Exibits[3][4]}}',
+            '{{Exibits[3][5]}}',
+            '{{Exibits[3][6]}}',
+            '{{Exibits[3][7]}}',
+            '{{Exibits[3][8]}}',
+            '{{Exibits[3][9]}}',
+            '{{Exibits[3][10]}}'
+            );
+            var list_from_15 = new Array('', '{{Exibits[4][3]}}',
+            '{{Exibits[4][4]}}',
+            '{{Exibits[4][5]}}',
+            '{{Exibits[4][6]}}',
+            '{{Exibits[4][7]}}',
+            '{{Exibits[4][8]}}',
+            '{{Exibits[4][9]}}',
+            '{{Exibits[4][10]}}'
+            );
+            var list_from_16 = new Array('', '{{Exibits[5][3]}}',
+            '{{Exibits[5][4]}}',
+            '{{Exibits[5][5]}}',
+            '{{Exibits[5][6]}}',
+            '{{Exibits[5][7]}}',
+            '{{Exibits[5][8]}}',
+            '{{Exibits[5][9]}}',
+            '{{Exibits[5][10]}}'
+            );
+            var list_from_17 = new Array('', '{{Exibits[6][3]}}',
+            '{{Exibits[6][4]}}',
+            '{{Exibits[6][5]}}',
+            '{{Exibits[6][6]}}',
+            '{{Exibits[6][7]}}',
+            '{{Exibits[6][8]}}',
+            '{{Exibits[6][9]}}',
+            '{{Exibits[6][10]}}'
+            );
+            var list_from_18 = new Array('', '{{Exibits[7][3]}}',
+            '{{Exibits[7][4]}}',
+            '{{Exibits[7][5]}}',
+            '{{Exibits[7][6]}}',
+            '{{Exibits[7][7]}}',
+            '{{Exibits[7][8]}}',
+            '{{Exibits[7][9]}}',
+            '{{Exibits[7][10]}}'
+            );
+
+
+        if (hod==1) {
+            var from = mem[0];
+            var to = mem[1];
+        } else if (hod==2) {
+            var from = mem[1];
+            var to = mem[2];
+        } else if (hod==3) {
+            var from = mem[2];
+            var to = mem[3];
+        } else if (hod==4) {
+            var from = mem[3];
+            var to = mem[4];
+        } else if (hod==5) {
+            var from = mem[4];
+            var to = mem[5];
+        } else if (hod==6) {
+            var from = mem[5];
+            var to = mem[6];
+        } else if (hod==7) {
+            var from = mem[6];
+            var to = mem[7];
+        };
+
+        if (from==1) {
+            var po = list_from_11[to];
+        } else if (from==2) {
+            var po = list_from_12[to];
+        } else if (from==3) {
+            var po = list_from_13[to];
+        } else if (from==4) {
+            var po = list_from_14[to];
+        } else if (from==5) {
+            var po = list_from_15[to];
+        } else if (from==6) {
+            var po = list_from_16[to];
+        } else if (from==7) {
+            var po = list_from_17[to];
+        } else if (from==8) {
+            var po = list_from_18[to];
+        }
+
+        if (po=='r') {
+            myModalRight.show();
+        } else if (po=='l') {
+            myModalLeft.show();
+        } else {
+            myModalRoom.show();
+        }
+    }
+
+    function play_1() {
+        play(hod);
+        momo(hod);
+        hod = hod + 1;
+       
+        var b = document.getElementById("1");
+        b.style.display = b.style.display === 'none' ? '' : 'none';
+    };
+    function play_2() {
+        play(hod);
+        momo(hod);
+        hod = hod + 1;
+        var b = document.getElementById("2");
+        b.style.display = b.style.display === 'none' ? '' : 'none';
+    };
+    function play_3() {
+        play(hod);
+        momo(hod);
+        hod = hod + 1;
+        var b = document.getElementById("3");
+        b.style.display = b.style.display === 'none' ? '' : 'none';
+    };
+    function play_4() {
+        play(hod);
+        momo(hod);
+        hod = hod + 1;
+        var b = document.getElementById("4");
+        b.style.display = b.style.display === 'none' ? '' : 'none';
+    };
+    function play_5() {
+        play(hod);
+        momo(hod);
+        hod = hod + 1;
+        var b = document.getElementById("5");
+        b.style.display = b.style.display === 'none' ? '' : 'none';
+    };
+    function play_6() {
+        play(hod);
+        momo(hod);
+        hod = hod + 1;
+        var b = document.getElementById("6");
+        b.style.display = b.style.display === 'none' ? '' : 'none';
+    };
+    function play_7() {
+        play(hod);
+        momo(hod);
+        hod = hod + 1;
+        var b = document.getElementById("7");
+        b.style.display = b.style.display === 'none' ? '' : 'none';
+    };
+    function play_8() {
+        play(hod);
+        momo(hod);
+        hod = hod + 1;
+        var b = document.getElementById("8");
+        b.style.display = b.style.display === 'none' ? '' : 'none';
+    };
+
+    function showContent(crop) {  
+        
+        if (crop==1) {
+            link = '{{url_for('exp1')}}';
+        }
+        if (crop==2) {
+            // alert(crop);
+            link = '{{url_for('exp2')}}';
+        }
+        if (crop==3) {
+            // alert(crop);
+            link = '{{url_for('exp3')}}';
+        }
+        if (crop==4) {
+            // alert(crop);
+            link = '{{url_for('exp4')}}';
+        }
+        if (crop==5) {
+            // alert(crop);
+            link = '{{url_for('exp5')}}';
+        }
+        if (crop==6) {
+            // alert(crop);
+            link = '{{url_for('exp6')}}';
+        }
+        if (crop==7) {
+            // alert(crop);
+            link = '{{url_for('exp7')}}';
+        }
+        if (crop==8) {
+                link = '{{url_for('exp8')}}';
+            };
+  var cont = document.getElementById('contentBody');  
+  var loading = document.getElementById('loading');  
+
+  cont.innerHTML = loading.innerHTML;  
+
+  var http = createRequestObject();  
+  if( http )   
+  {  
+      http.open('get', link);  
+      http.onreadystatechange = function ()   
+      {  
+          if(http.readyState == 4)   
+          {  
+              cont.innerHTML = http.responseText;  
+          }  
+      }  
+      http.send(null);      
+  }  
+  else   
+  {  
+      document.location = link;  
+  }  
+}  
+function createRequestObject()   
+{  
+  try { return new XMLHttpRequest() }  
+  catch(e)   
+  {  
+      try { return new ActiveXObject('Msxml2.XMLHTTP') }  
+      catch(e)   
+      {  
+          try { return new ActiveXObject('Microsoft.XMLHTTP') }  
+          catch(e) { return null; }  
+      }  
+  }  
+}  
+</script>
+</div>
+</body>
+{% endblock %}

@@ -9,6 +9,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
 	<link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 	<link rel="shortcut icon" href="../static/favicon.ico" type="image/x-icon">
 	<title>{{title}}</title>
 	<style>
@@ -21,6 +22,12 @@
 		--search-grey: #363636;
 		--logo-blue: #0d6efd;
 		--logo-pink: #b93d46;
+
+		--colone: #681a1a;
+		--coltwo: #892828;
+		--coltri: #bb6666;
+		--colfor: #df9d9d;
+		--colfiv: #f1e4e4;
 	}
 	body{
 		background-color: var(--search-grey);
@@ -28,15 +35,145 @@
 	h1,h2,h3,h4,h5,h6{
 		color: white;
 	}
+
 	.center {
         display: block;
         margin-left: auto;
         margin-right: auto;
     }
+	
+	/* Лоадер стайл */
+	.loader {
+    background: #363636;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 99999;
+	transition: opacity 0.5s ease;
+	}
+
+	.loader-inner {
+		bottom: 0;
+		height: 60px;
+		left: 0;
+		margin: auto;
+		position: absolute;
+		right: 0;
+		top: 0;
+		width: 100px;
+	}
+
+	.loader-line-wrap {
+		animation: 
+		spin 2000ms cubic-bezier(.175, .885, .32, 1.275) infinite;
+		box-sizing: border-box;
+		height: 50px;
+		left: 0;
+		overflow: hidden;
+		position: absolute;
+		top: 0;
+		transform-origin: 50% 100%;
+		width: 100px;
+	}
+	.loader-line {
+		border: 4px solid transparent;
+		border-radius: 100%;
+		box-sizing: border-box;
+		height: 100px;
+		left: 0;
+		margin: 0 auto;
+		position: absolute;
+		right: 0;
+		top: 0;
+		width: 100px;
+	}
+	.loader-line-wrap:nth-child(1) { animation-delay: -50ms; }
+	.loader-line-wrap:nth-child(2) { animation-delay: -100ms; }
+	.loader-line-wrap:nth-child(3) { animation-delay: -150ms; }
+	.loader-line-wrap:nth-child(4) { animation-delay: -200ms; }
+	.loader-line-wrap:nth-child(5) { animation-delay: -250ms; }
+
+	.loader-line-wrap:nth-child(1) .loader-line {
+		border-color: var(--colone);
+		height: 90px;
+		width: 90px;
+		top: 7px;
+	}
+	.loader-line-wrap:nth-child(2) .loader-line {
+		border-color: var(--coltwo);
+		height: 76px;
+		width: 76px;
+		top: 14px;
+	}
+	.loader-line-wrap:nth-child(3) .loader-line {
+		border-color: var(--coltri);
+		height: 62px;
+		width: 62px;
+		top: 21px;
+	}
+	.loader-line-wrap:nth-child(4) .loader-line {
+		border-color: var(--colfor);
+		height: 48px;
+		width: 48px;
+		top: 28px;
+	}
+	.loader-line-wrap:nth-child(5) .loader-line {
+		border-color: var(--colfiv);
+		height: 34px;
+		width: 34px;
+		top: 35px;
+	}
+
+	.loader-finish {
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	@keyframes spin {
+		0%, 15% {
+		transform: rotate(0);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+	}
+	/* Конец лоадер стайл */
 	</style>
+	
 </head>
 <body>
 	{% block content %}
+	<!-- Лоадер -->
+<div class="loader">
+	<div class="loader-inner">
+	  <div class="loader-line-wrap">
+		<div class="loader-line"></div>
+	  </div>
+	  <div class="loader-line-wrap">
+		<div class="loader-line"></div>
+	  </div>
+	  <div class="loader-line-wrap">
+		<div class="loader-line"></div>
+	  </div>
+	  <div class="loader-line-wrap">
+		<div class="loader-line"></div>
+	  </div>
+	  <div class="loader-line-wrap">
+		<div class="loader-line"></div>
+	  </div>
+	</div>
+  </div>
+
+  <script>
+	  window.addEventListener('load', () =>{
+		const loader = document.querySelector('.loader')
+		loader.classList.add('loader-finish')
+	  });
+  </script>
+<!-- Конец лоадер -->
 	{% endblock %}
 </body>
 </html>

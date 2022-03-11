@@ -1,0 +1,67 @@
+<html> 
+ 
+<head> 
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script> 
+    <script src="https://libs.zappar.com/zappar-aframe/0.3.29/zappar-aframe.js"></script> 
+ 
+    <meta charset="utf-8" /> 
+     
+    <style> 
+        html, 
+        body { 
+            margin: 0; 
+            padding: 0; 
+            width: 100%; 
+            height: 100%; 
+        } 
+    </style> 
+</head> 
+ 
+<body> 
+    <a-scene> 
+         
+      <a-assets> 
+           
+             
+        </a-assets> 
+      <a-mixin id="rotate" animation="property: rotation; loop: true; from: 0 0 0; to: 0 360 0; dur: 20000; easing: linear;"></a-mixin> 
+         
+        <a-mixin id="orbit" animation="property: rotation; loop: true; to: 0 360 0; easing: linear;"></a-mixin> 
+        <a-entity zappar-permissions-ui id="permissions"></a-entity> 
+        <!-- shows a full-page dialog that informs the user they're using an unsupported browser --> 
+        <a-entity zappar-compatibility-ui id="compatibility"></a-entity> 
+ 
+        <a-camera zappar-camera="user-facing: true;"></a-camera> 
+ 
+        <!-- CREATE FACE TRACKING TYPE --> 
+        <a-entity zappar-face id="face-group"> 
+          <a-entity light="type: ambient; color: #CCC"></a-entity> 
+           
+          <a-entity zappar-head-mask="face: #face-group;" light="type: point; color: #ffaf46; intensity: 1.5"></a-entity> 
+           
+           
+<a-entity gltf-model="{{url_for('static', filename='shapka.glb')}}" position="0 -0.75 0" scale="0.6 0.5 0.6"></a-entity> 
+            <a-entity mixin="orbit" animation="dur: 10000;"> 
+                <a-sphere position="0 0.65 1.8" radius="0.2" material="color: grey;" mixin="rotate"></a-sphere> 
+            </a-entity> 
+ 
+            <a-entity mixin="orbit" animation="dur: 12000;"> 
+                <a-sphere position="0 0.65 1.9" radius="0.2" material="color: grey" mixin="rotate"></a-sphere> 
+            </a-entity> 
+ 
+            <a-entity mixin="orbit" animation="dur: 14000;"> 
+                <a-sphere position="0 0.65 2" radius="0.3" material="src: color: grey;" mixin="rotate"></a-sphere> 
+              <a-entity mixin="orbit" animation="dur: 14000;"> 
+                <a-sphere position="0 0.65 2.1" radius="0.2" material="src: color: grey;" mixin="rotate"></a-sphere> 
+                <a-entity mixin="orbit" animation="dur: 10000;"> 
+                <a-sphere position="0 0.65 2.2" radius="0.15" material="src: color: grey;" mixin="rotate"></a-sphere> 
+               
+             
+            </a-entity> 
+ 
+ 
+        </a-entity> 
+    </a-scene> 
+</body> 
+ 
+</html>

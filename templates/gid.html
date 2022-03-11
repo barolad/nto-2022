@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block content %}
+{{ super() }}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<style>
+    .nav-link{
+        margin-left: 0 !important;
+    }
+    .imgin{
+        width: 10em;
+        height: auto;
+    }
+    .tab-pane{
+        color: white;
+    }
+</style>
+<div class="container mt-1">
+    <div class="d-flex justify-content-between">
+        <h1>AR-гид</h1>
+        <a class="nav-link" href="{{url_for('menu')}}"><span class="material-icons-outlined">login</span></a>
+    </div>
+    <div class="fixed-bottom">
+        <a href="stats?action=po_v" class="btn btn-danger center mx-2" style="margin-bottom: 16.5em">Статистика</a>
+    </div>
+    <div class="row">
+        <img class="col-6 imgin" src="../static/audio-gid/1.png" width="100" alt="" srcset="">
+        <ul class="col-6 nav nav-pills mt-4 mb-2 flex-column" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Выбрать</button>
+            </li>
+            <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Составить</button>
+            </li>
+            <li class="nav-item" role="presentation">
+            <a href="{{url_for('marshrutgenerate')}}" style="text-decoration: none;"><button class="nav-link" type="button" role="tab" >Сгенерировать</button></a>
+            </li>
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-m1" role="tabpanel" aria-labelledby="pills-m1-tab">
+                   
+                        <a href="marshrut?action=m1" class="btn btn-danger center fixed-bottom mx-2 mb-2">Продолжить</a>
+                    </div>
+                    <div class="tab-pane fade" id="pills-m2" role="tabpanel" aria-labelledby="pills-m2-tab">
+                   
+                        <a href="marshrut?action=m2" class="btn btn-danger center fixed-bottom mx-2 mb-2">Продолжить</a>
+                    </div>
+                    <div class="tab-pane fade" id="pills-m3" role="tabpanel" aria-labelledby="pills-m3-tab">
+           
+                        <a href="marshrut?action=m3" class="btn btn-danger center fixed-bottom mx-2 mb-2">Продолжить</a>
+                    </div>
+                    <div class="tab-pane fade" id="pills-m4" role="tabpanel" aria-labelledby="pills-m4-tab">
+                
+                        <a href="marshrut?action=m4" class="btn btn-danger center fixed-bottom mx-2 mb-2">Продолжить</a>
+                    </div>
+                    <div class="tab-pane fade" id="pills-m5" role="tabpanel" aria-labelledby="pills-m5-tab">
+                    
+                        <a href="marshrut?action=m5" class="btn btn-danger center fixed-bottom mx-2 mb-2">Продолжить</a>
+                    </div>
+                  </div>
+                <ul class="nav nav-pills mb-3 row fixed-bottom" style='margin-bottom: 3.4em !important;' id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link active col-12" id="pills-m1-tab" data-bs-toggle="pill" data-bs-target="#pills-m1" type="button" role="tab" aria-controls="pills-m1" aria-selected="true">Маршрут 1</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link col-12" id="pills-m2-tab" data-bs-toggle="pill" data-bs-target="#pills-m2" type="button" role="tab" aria-controls="pills-m2" aria-selected="false">Маршрут 2</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link col-12" id="pills-m3-tab" data-bs-toggle="pill" data-bs-target="#pills-m3" type="button" role="tab" aria-controls="pills-m3" aria-selected="false">Маршрут 3</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link col-12" id="pills-m4-tab" data-bs-toggle="pill" data-bs-target="#pills-m4" type="button" role="tab" aria-controls="pills-m4" aria-selected="false">Маршрут 4</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link col-12" id="pills-m5-tab" data-bs-toggle="pill" data-bs-target="#pills-m5" type="button" role="tab" aria-controls="pills-m5" aria-selected="false">Маршрут 5</button>
+                    </li>
+                  </ul>
+            </div>
+            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                <form action="marshrutsostav" method="get" class="row" style="margin-top: -10px !important;">
+                <div class="col-12 mt-1">
+                    <div class="input-group">
+                      <div class="input-group-text"><span class="material-icons-outlined">category</span></div>
+                      <select id="inputState" class="form-select" multiple aria-label="multiple select example" aria-label="size 1 select example" name='expo'>
+                        <option value="1">Нерпа свистулька</option> 
+                        <option value="2">Одинокий нерпёнок</option> 
+                        <option value="3">Семья нерп</option> 
+                        <option value="4">Нерпа на камне</option> 
+                        <option value="5">Юрта</option> 
+                        <option value="6">Тарелка</option> 
+                        <option value="7">Мальчик со щенком</option> 
+                        <option value="8">Наелся и лежит</option>
+                      </select>
+                    </div>
+                </div>
+                    <div class="col-12 mt-2 ">
+                        <button class="btn btn-primary mt-1" type="submit" style="width: 100%;">Составить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

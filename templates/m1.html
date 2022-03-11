@@ -1,0 +1,330 @@
+{% extends 'base.html' %}
+{% block content %}
+{{ super() }}
+<script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+<script src="https://libs.zappar.com/zappar-aframe/0.3.29/zappar-aframe.js"></script>
+<script>
+    AFRAME.registerComponent("visibility-changer", {
+        init: function () {
+            this.el.setAttribute("visible", false)
+            this.el.sceneEl.addEventListener('zappar-visible', () => this.el.setAttribute("visible", true));
+        }
+    });
+</script>
+
+<style>  
+    #startep, #lavkap{
+        width: 15em !important;
+    } 
+    /* .exp{
+        display: none;
+    } */
+</style>
+<body onload="initElement();"> 
+    <div class="container">
+        <a-scene loading-screen="backgroundColor: #344A60">
+            <a-entity zappar-permissions-ui id="permissions"></a-entity>
+            <a-entity zappar-compatibility-ui id="compatibility"></a-entity>
+            <a-assets>
+                <img id="card-plain" src="assets/BusinessCardPlain.png" />
+                <img id="web-icon" src="assets/WebLaunch.png"/>
+                <img id="facebook-icon" src="assets/Facebook.png"/>
+                <img id="phone-icon" src="assets/Phone.png"/>
+                <a-mixin id="iconProperties" scale="0.4 0.4 0.4" material="alpha-test:0.5" animation="property: scale; to: 0.5 0.5 0.5; dir: alternate; dur: 2000; loop:true;"></a-mixin>
+            </a-assets>
+            <a-camera zappar-camera cursor="rayOrigin: mouse; fuse: false;" raycaster="objects: .collidable"></a-camera>
+            <a-entity zappar-image="target: {{url_for('static',filename='targets/t_exp1.zpt')}}">
+                <a-entity visibility-changer>
+                    <a-image id="card-background" src="#card-plain" height="2" width="3" position="0 0 0" material="alpha-test:0.5"></a-image>
+                    <a-entity id="name-and-title">
+                        <a-entity id="name" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Francesca Ellis; color: #FFF;" position="0.3 0 0" scale="3.5 3.5 3.5"></a-entity>
+                        <a-entity id="title" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Junior Support Engineer; color: #FFF;" position="-0.2 -0.15 0" scale="2.5 2.5 2.5"></a-entity>
+                    </a-entity>
+                    <a-entity id="menu-items">
+                        <a-image src="#web-icon" class="collidable" position="-1.2 0.6 0.3" mixin="iconProperties" link="href: https://zap.works; title: My Homepage;" animation="delay: 1000;"></a-image>
+                        <a-image src="#facebook-icon" class="collidable" position="-0.7 0.6 0.3" mixin="iconProperties" link="href: https://zap.works; title: My Facebook;" animation="delay: 2000;"></a-image>
+                        <a-image src="#phone-icon" class="collidable" position="-0.2 0.6 0.3" mixin="iconProperties" link="href: tel:123-456-7890p123; title: My Phone;" animation="delay: 3000;"></a-image>
+                    </a-entity>
+                    <a-entity id="bolt" gltf-model="assets/ZapparLog.glb" class="collidable" position="0.6 0 0.3" scale="2 1.9 2" sound="src: url(assets/zapsplat_laser.mp3); on: click;"></a-entity>
+                    <a-entity id="cta" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Tap on an icon to \n find out more!; color: #FFF; align: center;" position="-0.7 -0.5 0.3" scale="3 3 3"></a-entity>
+                </a-entity>
+            </a-entity>
+        </a-scene>
+    </div>
+    <div class="exp exp2" style="display: none;">
+        <a-scene loading-screen="backgroundColor: #344A60">
+            <a-entity zappar-permissions-ui id="permissions"></a-entity>
+            <a-entity zappar-compatibility-ui id="compatibility"></a-entity>
+            <a-assets>
+                <img id="card-plain" src="assets/BusinessCardPlain.png" />
+                <img id="web-icon" src="assets/WebLaunch.png"/>
+                <img id="facebook-icon" src="assets/Facebook.png"/>
+                <img id="phone-icon" src="assets/Phone.png"/>
+                <a-mixin id="iconProperties" scale="0.4 0.4 0.4" material="alpha-test:0.5" animation="property: scale; to: 0.5 0.5 0.5; dir: alternate; dur: 2000; loop:true;"></a-mixin>
+            </a-assets>
+            <a-camera zappar-camera cursor="rayOrigin: mouse; fuse: false;" raycaster="objects: .collidable"></a-camera>
+            <a-entity zappar-image="target: {{url_for('static',filename='targets/t_exp1.zpt')}}">
+                <a-entity visibility-changer>
+                    <a-image id="card-background" src="#card-plain" height="2" width="3" position="0 0 0" material="alpha-test:0.5"></a-image>
+                    <a-entity id="name-and-title">
+                        <a-entity id="name" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Francesca Ellis; color: #FFF;" position="0.3 0 0" scale="3.5 3.5 3.5"></a-entity>
+                        <a-entity id="title" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Junior Support Engineer; color: #FFF;" position="-0.2 -0.15 0" scale="2.5 2.5 2.5"></a-entity>
+                    </a-entity>
+                    <a-entity id="menu-items">
+                        <a-image src="#web-icon" class="collidable" position="-1.2 0.6 0.3" mixin="iconProperties" link="href: https://zap.works; title: My Homepage;" animation="delay: 1000;"></a-image>
+                        <a-image src="#facebook-icon" class="collidable" position="-0.7 0.6 0.3" mixin="iconProperties" link="href: https://zap.works; title: My Facebook;" animation="delay: 2000;"></a-image>
+                        <a-image src="#phone-icon" class="collidable" position="-0.2 0.6 0.3" mixin="iconProperties" link="href: tel:123-456-7890p123; title: My Phone;" animation="delay: 3000;"></a-image>
+                    </a-entity>
+                    <a-entity id="bolt" gltf-model="assets/ZapparLog.glb" class="collidable" position="0.6 0 0.3" scale="2 1.9 2" sound="src: url(assets/zapsplat_laser.mp3); on: click;"></a-entity>
+                    <a-entity id="cta" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Tap on an icon to \n find out more!; color: #FFF; align: center;" position="-0.7 -0.5 0.3" scale="3 3 3"></a-entity>
+                </a-entity>
+            </a-entity>
+        </a-scene>
+    </div>
+    <!-- <div class="exp exp3">
+        <a-scene loading-screen="backgroundColor: #344A60">
+            <a-entity zappar-permissions-ui id="permissions"></a-entity>
+            <a-entity zappar-compatibility-ui id="compatibility"></a-entity>
+            <a-assets>
+                <img id="card-plain" src="assets/BusinessCardPlain.png" />
+                <img id="web-icon" src="assets/WebLaunch.png"/>
+                <img id="facebook-icon" src="assets/Facebook.png"/>
+                <img id="phone-icon" src="assets/Phone.png"/>
+                <a-mixin id="iconProperties" scale="0.4 0.4 0.4" material="alpha-test:0.5" animation="property: scale; to: 0.5 0.5 0.5; dir: alternate; dur: 2000; loop:true;"></a-mixin>
+            </a-assets>
+            <a-camera zappar-camera cursor="rayOrigin: mouse; fuse: false;" raycaster="objects: .collidable"></a-camera>
+            <a-entity zappar-image="target: {{url_for('static',filename='targets/t_exp1.zpt')}}">
+                <a-entity visibility-changer>
+                    <a-image id="card-background" src="#card-plain" height="2" width="3" position="0 0 0" material="alpha-test:0.5"></a-image>
+                    <a-entity id="name-and-title">
+                        <a-entity id="name" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Francesca Ellis; color: #FFF;" position="0.3 0 0" scale="3.5 3.5 3.5"></a-entity>
+                        <a-entity id="title" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Junior Support Engineer; color: #FFF;" position="-0.2 -0.15 0" scale="2.5 2.5 2.5"></a-entity>
+                    </a-entity>
+                    <a-entity id="menu-items">
+                        <a-image src="#web-icon" class="collidable" position="-1.2 0.6 0.3" mixin="iconProperties" link="href: https://zap.works; title: My Homepage;" animation="delay: 1000;"></a-image>
+                        <a-image src="#facebook-icon" class="collidable" position="-0.7 0.6 0.3" mixin="iconProperties" link="href: https://zap.works; title: My Facebook;" animation="delay: 2000;"></a-image>
+                        <a-image src="#phone-icon" class="collidable" position="-0.2 0.6 0.3" mixin="iconProperties" link="href: tel:123-456-7890p123; title: My Phone;" animation="delay: 3000;"></a-image>
+                    </a-entity>
+                    <a-entity id="bolt" gltf-model="assets/ZapparLog.glb" class="collidable" position="0.6 0 0.3" scale="2 1.9 2" sound="src: url(assets/zapsplat_laser.mp3); on: click;"></a-entity>
+                    <a-entity id="cta" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Tap on an icon to \n find out more!; color: #FFF; align: center;" position="-0.7 -0.5 0.3" scale="3 3 3"></a-entity>
+                </a-entity>
+            </a-entity>
+        </a-scene>
+    </div>
+    <div class="exp exp4">
+        <a-scene loading-screen="backgroundColor: #344A60">
+            <a-entity zappar-permissions-ui id="permissions"></a-entity>
+            <a-entity zappar-compatibility-ui id="compatibility"></a-entity>
+            <a-assets>
+                <img id="card-plain" src="assets/BusinessCardPlain.png" />
+                <img id="web-icon" src="assets/WebLaunch.png"/>
+                <img id="facebook-icon" src="assets/Facebook.png"/>
+                <img id="phone-icon" src="assets/Phone.png"/>
+                <a-mixin id="iconProperties" scale="0.4 0.4 0.4" material="alpha-test:0.5" animation="property: scale; to: 0.5 0.5 0.5; dir: alternate; dur: 2000; loop:true;"></a-mixin>
+            </a-assets>
+            <a-camera zappar-camera cursor="rayOrigin: mouse; fuse: false;" raycaster="objects: .collidable"></a-camera>
+            <a-entity zappar-image="target: {{url_for('static',filename='targets/t_exp1.zpt')}}">
+                <a-entity visibility-changer>
+                    <a-image id="card-background" src="#card-plain" height="2" width="3" position="0 0 0" material="alpha-test:0.5"></a-image>
+                    <a-entity id="name-and-title">
+                        <a-entity id="name" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Francesca Ellis; color: #FFF;" position="0.3 0 0" scale="3.5 3.5 3.5"></a-entity>
+                        <a-entity id="title" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Junior Support Engineer; color: #FFF;" position="-0.2 -0.15 0" scale="2.5 2.5 2.5"></a-entity>
+                    </a-entity>
+                    <a-entity id="menu-items">
+                        <a-image src="#web-icon" class="collidable" position="-1.2 0.6 0.3" mixin="iconProperties" link="href: https://zap.works; title: My Homepage;" animation="delay: 1000;"></a-image>
+                        <a-image src="#facebook-icon" class="collidable" position="-0.7 0.6 0.3" mixin="iconProperties" link="href: https://zap.works; title: My Facebook;" animation="delay: 2000;"></a-image>
+                        <a-image src="#phone-icon" class="collidable" position="-0.2 0.6 0.3" mixin="iconProperties" link="href: tel:123-456-7890p123; title: My Phone;" animation="delay: 3000;"></a-image>
+                    </a-entity>
+                    <a-entity id="bolt" gltf-model="assets/ZapparLog.glb" class="collidable" position="0.6 0 0.3" scale="2 1.9 2" sound="src: url(assets/zapsplat_laser.mp3); on: click;"></a-entity>
+                    <a-entity id="cta" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Tap on an icon to \n find out more!; color: #FFF; align: center;" position="-0.7 -0.5 0.3" scale="3 3 3"></a-entity>
+                </a-entity>
+            </a-entity>
+        </a-scene>
+    </div>
+    <div class="exp exp5">
+        <a-scene loading-screen="backgroundColor: #344A60">
+            <a-entity zappar-permissions-ui id="permissions"></a-entity>
+            <a-entity zappar-compatibility-ui id="compatibility"></a-entity>
+            <a-assets>
+                <img id="card-plain" src="assets/BusinessCardPlain.png" />
+                <img id="web-icon" src="assets/WebLaunch.png"/>
+                <img id="facebook-icon" src="assets/Facebook.png"/>
+                <img id="phone-icon" src="assets/Phone.png"/>
+                <a-mixin id="iconProperties" scale="0.4 0.4 0.4" material="alpha-test:0.5" animation="property: scale; to: 0.5 0.5 0.5; dir: alternate; dur: 2000; loop:true;"></a-mixin>
+            </a-assets>
+            <a-camera zappar-camera cursor="rayOrigin: mouse; fuse: false;" raycaster="objects: .collidable"></a-camera>
+            <a-entity zappar-image="target: {{url_for('static',filename='targets/t_exp1.zpt')}}">
+                <a-entity visibility-changer>
+                    <a-image id="card-background" src="#card-plain" height="2" width="3" position="0 0 0" material="alpha-test:0.5"></a-image>
+                    <a-entity id="name-and-title">
+                        <a-entity id="name" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Francesca Ellis; color: #FFF;" position="0.3 0 0" scale="3.5 3.5 3.5"></a-entity>
+                        <a-entity id="title" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Junior Support Engineer; color: #FFF;" position="-0.2 -0.15 0" scale="2.5 2.5 2.5"></a-entity>
+                    </a-entity>
+                    <a-entity id="menu-items">
+                        <a-image src="#web-icon" class="collidable" position="-1.2 0.6 0.3" mixin="iconProperties" link="href: https://zap.works; title: My Homepage;" animation="delay: 1000;"></a-image>
+                        <a-image src="#facebook-icon" class="collidable" position="-0.7 0.6 0.3" mixin="iconProperties" link="href: https://zap.works; title: My Facebook;" animation="delay: 2000;"></a-image>
+                        <a-image src="#phone-icon" class="collidable" position="-0.2 0.6 0.3" mixin="iconProperties" link="href: tel:123-456-7890p123; title: My Phone;" animation="delay: 3000;"></a-image>
+                    </a-entity>
+                    <a-entity id="bolt" gltf-model="assets/ZapparLog.glb" class="collidable" position="0.6 0 0.3" scale="2 1.9 2" sound="src: url(assets/zapsplat_laser.mp3); on: click;"></a-entity>
+                    <a-entity id="cta" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Tap on an icon to \n find out more!; color: #FFF; align: center;" position="-0.7 -0.5 0.3" scale="3 3 3"></a-entity>
+                </a-entity>
+            </a-entity>
+        </a-scene>
+    </div>
+    <div class="exp exp6">
+        <a-scene loading-screen="backgroundColor: #344A60">
+            <a-entity zappar-permissions-ui id="permissions"></a-entity>
+            <a-entity zappar-compatibility-ui id="compatibility"></a-entity>
+            <a-assets>
+                <img id="card-plain" src="assets/BusinessCardPlain.png" />
+                <img id="web-icon" src="assets/WebLaunch.png"/>
+                <img id="facebook-icon" src="assets/Facebook.png"/>
+                <img id="phone-icon" src="assets/Phone.png"/>
+                <a-mixin id="iconProperties" scale="0.4 0.4 0.4" material="alpha-test:0.5" animation="property: scale; to: 0.5 0.5 0.5; dir: alternate; dur: 2000; loop:true;"></a-mixin>
+            </a-assets>
+            <a-camera zappar-camera cursor="rayOrigin: mouse; fuse: false;" raycaster="objects: .collidable"></a-camera>
+            <a-entity zappar-image="target: {{url_for('static',filename='targets/t_exp1.zpt')}}">
+                <a-entity visibility-changer>
+                    <a-image id="card-background" src="#card-plain" height="2" width="3" position="0 0 0" material="alpha-test:0.5"></a-image>
+                    <a-entity id="name-and-title">
+                        <a-entity id="name" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Francesca Ellis; color: #FFF;" position="0.3 0 0" scale="3.5 3.5 3.5"></a-entity>
+                        <a-entity id="title" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Junior Support Engineer; color: #FFF;" position="-0.2 -0.15 0" scale="2.5 2.5 2.5"></a-entity>
+                    </a-entity>
+                    <a-entity id="menu-items">
+                        <a-image src="#web-icon" class="collidable" position="-1.2 0.6 0.3" mixin="iconProperties" link="href: https://zap.works; title: My Homepage;" animation="delay: 1000;"></a-image>
+                        <a-image src="#facebook-icon" class="collidable" position="-0.7 0.6 0.3" mixin="iconProperties" link="href: https://zap.works; title: My Facebook;" animation="delay: 2000;"></a-image>
+                        <a-image src="#phone-icon" class="collidable" position="-0.2 0.6 0.3" mixin="iconProperties" link="href: tel:123-456-7890p123; title: My Phone;" animation="delay: 3000;"></a-image>
+                    </a-entity>
+                    <a-entity id="bolt" gltf-model="assets/ZapparLog.glb" class="collidable" position="0.6 0 0.3" scale="2 1.9 2" sound="src: url(assets/zapsplat_laser.mp3); on: click;"></a-entity>
+                    <a-entity id="cta" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Tap on an icon to \n find out more!; color: #FFF; align: center;" position="-0.7 -0.5 0.3" scale="3 3 3"></a-entity>
+                </a-entity>
+            </a-entity>
+        </a-scene>
+    </div>
+    <div class="exp exp7">
+        <a-scene loading-screen="backgroundColor: #344A60">
+            <a-entity zappar-permissions-ui id="permissions"></a-entity>
+            <a-entity zappar-compatibility-ui id="compatibility"></a-entity>
+            <a-assets>
+                <img id="card-plain" src="assets/BusinessCardPlain.png" />
+                <img id="web-icon" src="assets/WebLaunch.png"/>
+                <img id="facebook-icon" src="assets/Facebook.png"/>
+                <img id="phone-icon" src="assets/Phone.png"/>
+                <a-mixin id="iconProperties" scale="0.4 0.4 0.4" material="alpha-test:0.5" animation="property: scale; to: 0.5 0.5 0.5; dir: alternate; dur: 2000; loop:true;"></a-mixin>
+            </a-assets>
+            <a-camera zappar-camera cursor="rayOrigin: mouse; fuse: false;" raycaster="objects: .collidable"></a-camera>
+            <a-entity zappar-image="target: {{url_for('static',filename='targets/t_exp1.zpt')}}">
+                <a-entity visibility-changer>
+                    <a-image id="card-background" src="#card-plain" height="2" width="3" position="0 0 0" material="alpha-test:0.5"></a-image>
+                    <a-entity id="name-and-title">
+                        <a-entity id="name" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Francesca Ellis; color: #FFF;" position="0.3 0 0" scale="3.5 3.5 3.5"></a-entity>
+                        <a-entity id="title" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Junior Support Engineer; color: #FFF;" position="-0.2 -0.15 0" scale="2.5 2.5 2.5"></a-entity>
+                    </a-entity>
+                    <a-entity id="menu-items">
+                        <a-image src="#web-icon" class="collidable" position="-1.2 0.6 0.3" mixin="iconProperties" link="href: https://zap.works; title: My Homepage;" animation="delay: 1000;"></a-image>
+                        <a-image src="#facebook-icon" class="collidable" position="-0.7 0.6 0.3" mixin="iconProperties" link="href: https://zap.works; title: My Facebook;" animation="delay: 2000;"></a-image>
+                        <a-image src="#phone-icon" class="collidable" position="-0.2 0.6 0.3" mixin="iconProperties" link="href: tel:123-456-7890p123; title: My Phone;" animation="delay: 3000;"></a-image>
+                    </a-entity>
+                    <a-entity id="bolt" gltf-model="assets/ZapparLog.glb" class="collidable" position="0.6 0 0.3" scale="2 1.9 2" sound="src: url(assets/zapsplat_laser.mp3); on: click;"></a-entity>
+                    <a-entity id="cta" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Tap on an icon to \n find out more!; color: #FFF; align: center;" position="-0.7 -0.5 0.3" scale="3 3 3"></a-entity>
+                </a-entity>
+            </a-entity>
+        </a-scene>
+    </div>
+    <div class="exp exp8">
+        <a-scene loading-screen="backgroundColor: #344A60">
+            <a-entity zappar-permissions-ui id="permissions"></a-entity>
+            <a-entity zappar-compatibility-ui id="compatibility"></a-entity>
+            <a-assets>
+                <img id="card-plain" src="assets/BusinessCardPlain.png" />
+                <img id="web-icon" src="assets/WebLaunch.png"/>
+                <img id="facebook-icon" src="assets/Facebook.png"/>
+                <img id="phone-icon" src="assets/Phone.png"/>
+                <a-mixin id="iconProperties" scale="0.4 0.4 0.4" material="alpha-test:0.5" animation="property: scale; to: 0.5 0.5 0.5; dir: alternate; dur: 2000; loop:true;"></a-mixin>
+            </a-assets>
+            <a-camera zappar-camera cursor="rayOrigin: mouse; fuse: false;" raycaster="objects: .collidable"></a-camera>
+            <a-entity zappar-image="target: {{url_for('static',filename='targets/t_exp1.zpt')}}">
+                <a-entity visibility-changer>
+                    <a-image id="card-background" src="#card-plain" height="2" width="3" position="0 0 0" material="alpha-test:0.5"></a-image>
+                    <a-entity id="name-and-title">
+                        <a-entity id="name" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Francesca Ellis; color: #FFF;" position="0.3 0 0" scale="3.5 3.5 3.5"></a-entity>
+                        <a-entity id="title" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Junior Support Engineer; color: #FFF;" position="-0.2 -0.15 0" scale="2.5 2.5 2.5"></a-entity>
+                    </a-entity>
+                    <a-entity id="menu-items">
+                        <a-image src="#web-icon" class="collidable" position="-1.2 0.6 0.3" mixin="iconProperties" link="href: https://zap.works; title: My Homepage;" animation="delay: 1000;"></a-image>
+                        <a-image src="#facebook-icon" class="collidable" position="-0.7 0.6 0.3" mixin="iconProperties" link="href: https://zap.works; title: My Facebook;" animation="delay: 2000;"></a-image>
+                        <a-image src="#phone-icon" class="collidable" position="-0.2 0.6 0.3" mixin="iconProperties" link="href: tel:123-456-7890p123; title: My Phone;" animation="delay: 3000;"></a-image>
+                    </a-entity>
+                    <a-entity id="bolt" gltf-model="assets/ZapparLog.glb" class="collidable" position="0.6 0 0.3" scale="2 1.9 2" sound="src: url(assets/zapsplat_laser.mp3); on: click;"></a-entity>
+                    <a-entity id="cta" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Tap on an icon to \n find out more!; color: #FFF; align: center;" position="-0.7 -0.5 0.3" scale="3 3 3"></a-entity>
+                </a-entity>
+            </a-entity>
+        </a-scene>
+    </div> -->
+    <div class="container" id='replaceMe' style="display: block;">
+        <button class="btn btn-danger center fixed-bottom mx-2 mb-2" id='starte' onclick="starte();">Начать</button>
+        <img src="../static/audio-gid/2.png" class="center mt-5" id="startep" alt="" width="300px">
+        <button class="btn btn-primary center fixed-bottom mx-2 mb-2" id='lavka' onclick="playsound_first();" style="display:none;">Продолжить</button>
+        <img src="../static/audio-gid/1.png" class="center mt-5" id="lavkap" alt="" style="display:none;" width="300px">
+    </div>
+    <button class="btn btn-primary fixed-bottom mb-5" onclick="next()">EOOWEOWEOW</button>
+    <script>
+        function initElement() {
+        var b_start = document.getElementById("starte");
+        var png_start = document.getElementById("startep");
+        var b_first = document.getElementById("lavka");
+        var png_first = document.getElementById("lavkap");
+        };
+
+        function starte() {      
+            var audio = new Audio('{{url_for("static", filename="audio-gid/first.mp3")}}');
+            audio.play();
+
+            document.getElementById("starte").remove();
+            document.getElementById("startep").remove();
+            
+            var b2 = document.getElementById("lavka");
+            b2.style.display = b2.style.display === 'none' ? '' : 'none';
+            var b3 = document.getElementById("lavkap");
+            b3.style.display = b3.style.display === 'none' ? '' : 'none';
+        };
+        function playsound_first() {   
+            var List = new Array('{{url_for("static", filename="audio-gid/f_1.mp3")}}',
+            '{{url_for("static", filename="audio-gid/f_2.mp3")}}',
+            '{{url_for("static", filename="audio-gid/f_3.mp3")}}',
+            '{{url_for("static", filename="audio-gid/f_4.mp3")}}',
+            '{{url_for("static", filename="audio-gid/f_5.mp3")}}',
+            '{{url_for("static", filename="audio-gid/f_6.mp3")}}',
+            '{{url_for("static", filename="audio-gid/f_7.mp3")}}',
+            '{{url_for("static", filename="audio-gid/f_8.mp3")}}'
+            )
+            var audio = new Audio(List[{{list[7]}}]);
+            audio.play();
+            document.getElementById("lavka").remove();
+            document.getElementById("lavkap").remove();
+            var content = 
+            jQuery('#replaceMe').replaceWith(jQuery('#iamReplacement'));
+
+            var b4 = document.getElementById("iamReplacement");
+            // b4.style.display = b4.style.display === 'none' ? '' : 'none';
+        };
+        function next(){
+            jQuery('#iamReplacement').replaceWith(jQuery('#replaceMe'));
+        }
+        </script>
+    </div>
+</body>
+
+
+
+
+
+
+
+{%for i in range(0,lena)%}
+{{list[i]}}
+{%endfor%}
+
+
+
+{% endblock %}

@@ -1,0 +1,199 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script> 
+    <script src="https://libs.zappar.com/zappar-aframe/0.3.29/zappar-aframe.js"></script> 
+     
+    <meta charset="utf-8" /> 
+    <title>Экспонат</title> 
+    <style> 
+      :root { 
+        --button-bg: #90e4be; 
+      } 
+      html, 
+      body { 
+        margin: 0; 
+        padding: 0; 
+        width: 100%; 
+        height: 100%; 
+      } 
+   
+    </style> 
+ 
+    <script> 
+      
+      AFRAME.registerComponent("collider-check", { 
+        dependencies: ["raycaster"], 
+        init: function () { 
+          this.el.addEventListener("raycaster-intersection", function () { 
+            // When the object is detected, play the animation 
+            const model = document.getElementById("model"); 
+            model.setAttribute("animation-mixer", "clip:null"); 
+            model.setAttribute( 
+              "animation-mixer", 
+              "clip: Armature|mixamo.com|Layer0; repetitions : 1" 
+            ); 
+          }); 
+        }, 
+      });
+      let ImageGroupOne = document.getElementById("image-group-one");
+      let ImageGroupTwo = document.getElementById("image-group-two");
+
+      let imageOneVisible = false;
+      let imageTwoVisible = false;
+      
+      ImageGroupOne.addEventListener("zappar-notvisible", () => {
+         // The image has appeared so show the group
+         ImageGroupOne.setAttribute("visible", "false");
+         imageOneVisible = false;
+      });
+
+      ImageGroupOne.addEventListener("zappar-visible", () => {
+         // The image has appeared so show the group
+         ImageGroupOne.setAttribute("visible", "true");
+         imageOneVisible = true;
+      });
+      ImageGroupTwo.addEventListener("zappar-notvisible", () => {
+         // The image has appeared so show the group
+         ImageGroupTwo.setAttribute("visible", "false");
+         imageTwoVisible = false;
+      });
+
+      ImageGroupTwo.addEventListener("zappar-visible", () => {
+         // The image has appeared so show the group
+         ImageGroupTwo.setAttribute("visible", "true");
+         imageTwoVisible = true;
+      });
+    </script> 
+  </head> 
+  <body> 
+    <p> Отсканируйте метку</p> 
+    <a-scene cursor="rayOrigin: mouse;"> 
+ 
+      <a-entity zappar-permissions-ui id="permissions"></a-entity> 
+      <!-- shows a full-page dialog that informs the user they're using an unsupported browser --> 
+      <a-entity zappar-compatibility-ui id="compatibility"></a-entity> 
+ 
+ 
+      <a-assets> 
+         <a-mixin id="portal"
+          geometry="primitive: circle; segments: 64; radius: 2"
+          material=" backgroundColor: #333; transparent: true;"
+          raycastable=""
+          animation__mouseenterscale="property: scale; from: 1 1 1; to: 1.1 1.1 1.1; easing: easeInOutQuad; dir: alternate; loop: true; startEvents: mouseenter; dur: 1000; pauseEvents: mouseleave"></a-mixin>
+        <a-mixin id="hoverAnimation"
+          animation="property: object3D.position.y; from: 1.6; to: 1.8; dir: alternate; loop: NaN; dur: 5000; easing: easeInOutCubic; pauseEvents: touched"></a-mixin>
+         
+          <a-asset-item id="target-file-one" src="{{ url_for('static',filename='targets/t_port1.zpt') }}"/>
+          <a-asset-item id="target-file-two" src="{{ url_for('static',filename='targets/t_port2.zpt') }}"/>
+          <a-asset-item id="portalbody" src="{{ url_for('static',filename='portal/portbody.obj') }}"/>
+          <img id="portalframe" src="{{ url_for('static',filename='portal/portframe.png') }}"/>
+          <img id="portprev360" src="{{ url_for('static',filename='portal/portprev360.jpg') }}"/>
+          <img id="portprev3d" src="{{ url_for('static',filename='portal/portprev3d.png') }}"/>
+      </a-assets> 
+      
+ 
+      
+      <a-camera 
+        zappar-camera 
+      ></a-camera> 
+ 
+        <a-entity zappar-image="target: #target-file-one" id="image-group-one">
+    
+    <a-entity id="portalone"
+                    mixin="hoverAnimation" 
+                    
+                    animation="loop:NaN"
+                    >
+                    <a-entity 
+                    class="portal" 
+                    link="href: {{ url_for('trideroom') }};"
+                    
+                    material="src: #portprev3d" 
+                    position="0 0 0"
+                    mixin="portal" > 
+                <a-entity      
+                  class="portalEffect1" 
+                  additive="" 
+                  
+                  scale="6 6 6" 
+                  material="color:#00ffff;opacity:0.6;depthWrite:false;shader:flat;transparent:true;src:#portalframe"
+                  obj-model="obj:portalbody" 
+                  position="0 0 -0.017" 
+                  rotation="21.369598955261782 90 90"         
+                  animation="property:object3D.rotation.x;from:0;to:360;dur:10000;loop:true;easing:linear"
+                ></a-entity> 
+                <a-entity 
+                  class="portalEffect2" 
+                  obj-model="obj: #portalbody" 
+                  additive=""
+                   
+                  material="color:#f37132;opacity:0.6;depthWrite:false;shader:flat;transparent:true;src:#portalframe" 
+                  position="0 0 -0.058" 
+                  rotation="255.04798753092018 90 90" 
+                  scale="6 6 6" 
+                  animation="property:object3D.rotation.x;from:0;to:360;dur:15000;loop:true;easing:linear">
+                  </a-entity>
+                <a-entity 
+                  class="portalText" 
+                  mixin="slice font" 
+                  slice9="color:#000;height:0.3;width:2.5;opacity:1" 
+                  text="color:#999;align:center;value:Go to the Pano Room;side:double;width:15;zOffset:0.01" 
+                  position="0 2.5 0">
+                  </a-entity> 
+               
+                
+                  </a-entity> 
+        </a-entity> 
+</a-entity>
+      
+    
+<a-entity zappar-image="target: #target-file-two" id="image-group-two">
+   <a-entity id="portaltwo"
+                    mixin="hoverAnimation" 
+                    
+                    animation="loop:NaN"
+                    >
+          <a-entity 
+              class="portal" 
+              link="href: {{ url_for('tristaroom') }};" 
+                 
+              material="src: #portprev360" 
+              position="0 0 0"
+              mixin="portal" > 
+          <a-entity      
+            class="portalEffect1" 
+            additive="" 
+            
+            scale="6 6 6" 
+            material="color:#00ffff;opacity:0.6;depthWrite:false;shader:flat;transparent:true;src:#portalframe"
+            obj-model="obj:portalbody" 
+            position="0 0 -0.017" 
+            rotation="21.369598955261782 90 90"         
+            animation="property:object3D.rotation.x;from:0;to:360;dur:10000;loop:true;easing:linear"
+          ></a-entity> 
+          <a-entity 
+            class="portalEffect2" 
+            obj-model="obj: #portalbody" 
+            additive=""
+            material="color:#f37132;opacity:0.6;depthWrite:false;shader:flat;transparent:true;src:#portalframe" 
+            position="0 0 -0.058" 
+            rotation="255.04798753092018 90 90" 
+            scale="6 6 6" 
+            animation="property:object3D.rotation.x;from:0;to:360;dur:15000;loop:true;easing:linear">
+            </a-entity>
+          <a-entity 
+            class="portalText" 
+            mixin="slice font" 
+            slice9="color:#000;height:0.3;width:2.5;opacity:1" 
+            text="color:#999;align:center;value:Go to the Pano Room;side:double;width:15;zOffset:0.01" 
+            position="0 2.5 0">
+            </a-entity> 
+         
+          
+            </a-entity> 
+        </a-entity> 
+</a-entity>
+    </a-scene> 
+  </body> 
+</html>

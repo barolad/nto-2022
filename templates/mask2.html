@@ -1,0 +1,27 @@
+<html lang="ru"> 
+  <head> 
+    <title>Face Mask</title> 
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script> 
+    <script src="https://libs.zappar.com/zappar-aframe/0.3.29/zappar-aframe.js"></script> 
+  </head> 
+  <body> 
+    <a-scene id="scene" cursor="rayOrigin: mouse"> 
+      <a-assets> 
+        <a-asset-item id="ship" src="{{ url_for('static',filename='shipship.glb') }}"> </a-asset-item>      
+      </a-assets> 
+       
+      <a-entity zappar-permissions-ui="" id="permissions"></a-entity> 
+      <a-entity zappar-compatibility-ui="" id="compatibility"></a-entity> 
+      <a-camera zappar-camera=" user-facing: true;" /> 
+      <a-entity zappar-face id="my-face-tracker"> 
+        <a-entity zappar-head-mask="face:#my-face-tracker;"></a-entity 
+          ><a-entity 
+            gltf-model="#ship" 
+            position="0 2 -2" 
+            scale="0.15 0.15 0.15" 
+            animation="property:rotation; to: 0 360 0 ;dur:15000;loop:true;easing:linear" 
+          ></a-entity 
+        ></a-entity> 
+    </a-scene> 
+  </body> 
+</html>

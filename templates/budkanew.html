@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block content %}
+{{ super() }}
+<style>
+    .fixed-bottom{
+        background-image: linear-gradient(rgba(255,255,255,0), rgb(255,255,255));
+    }
+    .fixed-top{
+        background-image: linear-gradient(rgb(255,255,255), rgba(255,255,255,0));
+    }
+    .nav-link{
+        background-color: #fff;
+    }
+    .btn{
+        z-index: -1 !important;
+        margin-top: 100px !important;
+    }
+    canvas{
+        max-width: 100%;
+        max-height: 100%;
+    }
+</style>
+
+<script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script> 
+    <script src="https://libs.zappar.com/zappar-aframe/0.3.29/zappar-aframe.js"></script>
+    <script> 
+        AFRAME.registerComponent("visibility-changer", { 
+          init: function () { 
+            this.el.setAttribute("visible", false); 
+            this.el.sceneEl.addEventListener("zappar-visible", () => 
+              this.el.setAttribute("visible", true) 
+            ); 
+          }, 
+        }); 
+        AFRAME.registerComponent("collider-check", { 
+          dependencies: ["raycaster"], 
+          init: function () { 
+            this.el.addEventListener("raycaster-intersection", function () { 
+              // When the object is detected, play the animation 
+              const model = document.getElementById("model"); 
+              model.setAttribute("animation-mixer", "clip:null"); 
+              model.setAttribute( 
+                "animation-mixer", 
+                "clip: Armature|mixamo.com|Layer0; repetitions : 1" 
+              ); 
+            }); 
+          }, 
+        }); 
+      </script> 
+<!--//-->
+<script>
+    function capture() {
+        document.querySelector('a-scene').components.screenshot.capture('perspective')
+    }
+</script>
+<nav class="fixed-top">
+    <ul class="nav nav-pills d-flex justify-content-between">
+        <li class="nav-item">
+            <a class="nav-link" href="javascript:capture()"><span class="material-icons-outlined">screenshot</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('menu')}}"><span class="material-icons-outlined">login</span></a>
+        </li>
+    </ul>
+</nav>
+<div id="content">
+    <!-- CONTENT -->
+</div> 
+<!--//-->
+<nav class="fixed-bottom">
+    <ul class="nav nav-pills mb-1 d-flex justify-content-between center mx-4" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button onclick="showContent('mask1')" class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true"><span class="material-icons-outlined">3d_rotation</span></button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button onClick="showContent('mask2')" class="nav-link" id="foo" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false"><span class="material-icons-outlined">face</span></button>
+        </li>
+        
+        <li class="nav-item" role="presentation">
+          <button onClick="showContent('mask3')" class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false"><span class="material-icons-outlined">videogame_asset</span></button>
+        </li>
+      </ul>          
+</nav>
+<div id="loading" style="display: none"> 
+    Идет загрузка... 
+    </div> 
+
+    <script>
+        showContent('page1.html') // страница по умолчанию
+        </script>
+    <script> 
+        function showContent(link) { 
+            var cont = document.getElementById('content'); 
+            var loading = document.getElementById('loading'); 
+            cont.innerHTML = loading.innerHTML;   
+            var http = createRequestObject(); 
+            if( http )  
+            { http.open('get', link); 
+                http.onreadystatechange = function ()  
+                {   if(http.readyState == 4)  
+                    {   cont.innerHTML = http.responseText;  }    } 
+                http.send(null);  } 
+            else  
+            {  document.location = link;   }   } 
+        // ajax объект
+        function createRequestObject()  
+        {  try { return new XMLHttpRequest() } 
+            catch(e)  
+            {  try { return new ActiveXObject('Msxml2.XMLHTTP') } 
+                catch(e)  
+                {   try { return new ActiveXObject('Microsoft.XMLHTTP') } 
+                    catch(e) { return null; }   } } } 
+    </script>
+    <script>
+        showContent('mask1');
+    </script>
+    {%endblock%}

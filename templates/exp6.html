@@ -1,0 +1,108 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script> 
+    <script src="https://libs.zappar.com/zappar-aframe/0.3.29/zappar-aframe.js"></script> 
+     
+    <meta charset="utf-8" /> 
+    <title>Экспонат</title> 
+    <style> 
+      :root { 
+        --button-bg: #90e4be; 
+      } 
+      html, 
+      body { 
+        margin: 0; 
+        padding: 0; 
+        width: 100%; 
+        height: 100%; 
+      } 
+   
+    </style> 
+ 
+    <script> 
+      AFRAME.registerComponent("visibility-changer", { 
+        init: function () { 
+          this.el.setAttribute("visible", false); 
+          this.el.sceneEl.addEventListener("zappar-visible", () => 
+            this.el.setAttribute("visible", true) 
+          ); 
+        }, 
+      }); 
+      AFRAME.registerComponent("collider-check", { 
+        dependencies: ["raycaster"], 
+        init: function () { 
+          this.el.addEventListener("raycaster-intersection", function () { 
+            // When the object is detected, play the animation 
+            const model = document.getElementById("model"); 
+            model.setAttribute("animation-mixer", "clip:null"); 
+            model.setAttribute( 
+              "animation-mixer", 
+              "clip: Armature|mixamo.com|Layer0; repetitions : 1" 
+            ); 
+          }); 
+        }, 
+      }); 
+    </script> 
+  </head> 
+  <body> 
+    <p> Отсканируйте метку</p> 
+    <a-scene loading-screen="backgroundColor: #344A60"> 
+ 
+      <a-entity zappar-permissions-ui id="permissions"></a-entity> 
+      <!-- shows a full-page dialog that informs the user they're using an unsupported browser --> 
+      <a-entity zappar-compatibility-ui id="compatibility"></a-entity> 
+ 
+ 
+      <a-assets> 
+        <a-mixin 
+          id="iconProperties" 
+          scale="0.4 0.4 0.4" 
+          material="alpha-test:0.5" 
+          animation="property: scale; to: 0.5 0.5 0.5; dir: alternate; dur: 2000; loop:true;" 
+        ></a-mixin> 
+      </a-assets> 
+      <!-- END ASSET PRE-LOADING --> 
+ 
+      
+      <a-camera 
+        zappar-camera 
+        cursor="rayOrigin: mouse; fuse: false;" 
+        raycaster="objects: .collidable" 
+      ></a-camera> 
+ 
+       
+      <a-entity zappar-image="target: {{ url_for('static',filename='targets/t_exp6.zpt') }}"> 
+        <!-- Have a group that will only become visible when the target image comes into view--> 
+        <a-entity visibility-changer> 
+ 
+ 
+           
+          <a-entity 
+          animation="property: rotation; from: 0 0 0; to: 0 360 0; loop: true; dur: 10000"  
+          rotate="90 0 0" 
+          scale="10 10 10" 
+            id="model" 
+            gltf-model="url({{ url_for('static',filename='exp6.glb') }})" 
+            
+            position="0 2 0" 
+            animation-mixыer="clip: null" 
+            mixin="rotate" 
+          ></a-entity> 
+          <a-text 
+            value="Text6 <3"
+            width="6" 
+            position="0.25 0.25 0"
+            rotation="0 0 -10"
+            color="#0000ff"
+          ></a-text>
+         
+          
+ 
+        </a-entity> 
+ 
+      </a-entity> 
+ 
+    </a-scene> 
+  </body> 
+</html>

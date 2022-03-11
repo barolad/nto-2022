@@ -1,0 +1,59 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script> 
+    <script src="https://libs.zappar.com/zappar-aframe/0.3.29/zappar-aframe.js"></script> 
+     
+    <meta charset="utf-8" /> 
+    <title>Экспонат</title> 
+    <style> 
+      :root { 
+        --button-bg: #90e4be; 
+      } 
+      html, 
+      body { 
+        margin: 0; 
+        padding: 0; 
+        width: 100%; 
+        height: 100%; 
+      } 
+   
+    </style> 
+ 
+    <script> 
+      AFRAME.registerComponent("visibility-changer", { 
+        init: function () { 
+          this.el.setAttribute("visible", false); 
+          this.el.sceneEl.addEventListener("zappar-visible", () => 
+            this.el.setAttribute("visible", true) 
+          ); 
+        }, 
+      }); 
+      AFRAME.registerComponent("collider-check", { 
+        dependencies: ["raycaster"], 
+        init: function () { 
+          this.el.addEventListener("raycaster-intersection", function () { 
+            // When the object is detected, play the animation 
+            const model = document.getElementById("model"); 
+            model.setAttribute("animation-mixer", "clip:null"); 
+            model.setAttribute( 
+              "animation-mixer", 
+              "clip: Armature|mixamo.com|Layer0; repetitions : 1" 
+            ); 
+          }); 
+        }, 
+      }); 
+    </script> 
+  <body> 
+    <a-scene>
+        <a-entity zappar-permissions-ui id="permissions"></a-entity>
+        <a-entity zappar-compatibility-ui id="compatibility"></a-entity>
+        <a-camera zappar-camera="user-facing: true;" />
+        <a-entity zappar-face id="face-anchor">
+            <a-entity visible="false" id='but' geometry="primitive: face-mesh; face: #face-anchor" material="src:url({{url_for('static',filename='12.png')}}); transparent: true;"></a-entity> 
+             <a-entity id='text' geometry="primitive: face-mesh; face: #face-anchor" material="src:url({{url_for('static',filename='12.png')}}); transparent: true;"></a-entity> 
+             <a-entity gltf-model="{{url_for('static', filename='usu.glb')}}" position="0 -0.2 0.9" scale="0.3 0.3 0.3" animation="property:object3D.rotation.z;from:0;to:10;dur:3000;loop:true;easing:linear"></a-entity>                    
+        </a-entity>
+    </a-scene> 
+  </body> 
+</html>

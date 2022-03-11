@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+{% block content %}
+{{ super() }}
+<style>
+    .material-icons-outlined{
+        font-size: smaller;
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<div class="container">
+    <h1>Статистика администратора</h1>
+    <h6 class="text-center">Время</h6>
+    <div>
+        <canvas id="allMonth"></canvas>
+    </div>
+    <div>
+        <canvas id="allMonth1" style="display: none;"></canvas>
+    </div>
+    <div>
+        <button class="btn btn-danger col-12 center mb-2" onclick="typechage();">Другой тип</button>
+    </div>
+    <div class="mb-2">
+        <canvas id="allCateg"></canvas>
+    </div>
+    <h6 class="text-center">Оценки</h6>
+    <div style="margin-bottom: 100px;">
+        <canvas id="allMonth3"></canvas>
+    </div>
+    <div class="fixed-bottom">
+        <a href="{{url_for('registration')}}" class="btn btn-danger mx-2 mb-1 center">Зарегистрировать администратора</a>
+        <a href="{{url_for('menu')}}" class="btn btn-danger mx-2 mb-2 center">На главную</a>
+    </div>
+</div>
+
+<script>
+    function typechage(){
+        var b=document.getElementById('allMonth');
+        var c= document.getElementById('allMonth1');
+        b.style.display = b.style.display === 'none' ? '' : 'none';
+        c.style.display = b.style.display === 'none' ? '' : 'none';
+    };
+</script>
+<script>
+    const categsum= {{ITsr}};
+    new Chart(document.getElementById("allCateg"), {
+        type: 'doughnut',
+        label: "Расходы",
+        data: {
+      labels: [1,2,3,4,5,6,7,8],
+      datasets: [
+        {
+        label: "Расходы",
+        backgroundColor: ["#fd7f6f", "#7eb0d5", "#b2e061", "#bd7ebe", "#ffb55a", "#ffee65", "#beb9db", "#fdcce5"],
+        data: categsum
+        }
+        ],
+        },
+        
+        });
+</script>
+<script>
+    const linelabel = [1,2,3,4,5,6,7,8];
+    const datasred = {{ITsr}};
+    const dataminus = {{ITmi}};
+    const datamax = {{ITma}}
+    var type = 'line';
+
+    new Chart(
+      document.getElementById('allMonth'),
+      {
+      type: "line",
+      data: {
+    labels: linelabel,
+    datasets: [{
+    label: 'Минимальное',
+    backgroundColor: 'rgb(255, 99, 132)',
+    borderColor: 'rgb(255, 99, 132)',
+    data: dataminus,
+    pointBackgroundColor: 'rgb(255, 99, 132)',
+    radius: 5,
+    tension: 0.2,
+    interaction: {
+          intersect: false,
+        }
+
+    },
+    {
+    label: 'Среднее',
+    backgroundColor: 'rgb(252, 209, 42)', 
+    borderColor: 'rgb(252, 209, 42)',
+    data: datasred,
+    pointBackgroundColor: 'rgb(252, 209, 42)',
+    radius: 5,
+    tension: 0.2,
+    interaction: {
+          intersect: false,
+        }
+    },
+    {
+    label: 'Максимальное',
+    backgroundColor: 'rgb(150, 212, 97)',
+    borderColor: 'rgb(150, 212, 97)',
+    data: datamax,
+    pointBackgroundColor: 'rgb(150, 212, 97)',
+    radius: 5,
+    tension: 0.2,
+    interaction: {
+          intersect: false,
+        }
+    }]},
+      options: {}
+    }
+    );
+
+    new Chart(
+      document.getElementById('allMonth1'),
+      {
+      type: "bar",
+      data: {
+    labels: linelabel,
+    datasets: [{
+    label: 'Минимальное',
+    backgroundColor: 'rgb(255, 99, 132)',
+    borderColor: 'rgb(255, 99, 132)',
+    data: dataminus,
+    pointBackgroundColor: 'rgb(255, 99, 132)',
+    radius: 5,
+    tension: 0.2,
+    interaction: {
+          intersect: false,
+        }
+
+    },
+    {
+    label: 'Среднее',
+    backgroundColor: 'rgb(252, 209, 42)', 
+    borderColor: 'rgb(252, 209, 42)',
+    data: datasred,
+    pointBackgroundColor: 'rgb(252, 209, 42)',
+    radius: 5,
+    tension: 0.2,
+    interaction: {
+          intersect: false,
+        }
+    },
+    {
+    label: 'Максимальное',
+    backgroundColor: 'rgb(150, 212, 97)',
+    borderColor: 'rgb(150, 212, 97)',
+    data: datamax,
+    pointBackgroundColor: 'rgb(150, 212, 97)',
+    radius: 5,
+    tension: 0.2,
+    interaction: {
+          intersect: false,
+        }
+    }]},
+      options: {}
+    }
+    );
+  </script>
+<script>
+    const linelabel1 = [1,2,3,4,5,6,7,8];
+    const datasred1 = {{V}};
+    const dataminus1 = {{D}};
+    const datamax1 = {{C}}
+
+    new Chart(
+      document.getElementById('allMonth3'),
+      {
+      type: "bar",
+      data: {
+    labels: linelabel,
+    datasets: [{
+    label: 'визуальная составляющая',
+    backgroundColor: 'rgb(255, 99, 132)',
+    borderColor: 'rgb(255, 99, 132)',
+    data: dataminus,
+    pointBackgroundColor: 'rgb(255, 99, 132)',
+    radius: 5,
+    tension: 0.2,
+    interaction: {
+          intersect: false,
+        }
+
+    },
+    {
+    label: 'описание экспоната',
+    backgroundColor: 'rgb(252, 209, 42)', 
+    borderColor: 'rgb(252, 209, 42)',
+    data: datasred,
+    pointBackgroundColor: 'rgb(252, 209, 42)',
+    radius: 5,
+    tension: 0.2,
+    interaction: {
+          intersect: false,
+        }
+    },
+    {
+    label: 'законченность образа',
+    backgroundColor: 'rgb(150, 212, 97)',
+    borderColor: 'rgb(150, 212, 97)',
+    data: datamax,
+    pointBackgroundColor: 'rgb(150, 212, 97)',
+    radius: 5,
+    tension: 0.2,
+    interaction: {
+          intersect: false,
+        }
+    }]},
+      options: {}
+    }
+    );
+  </script>
+{% endblock %}
+

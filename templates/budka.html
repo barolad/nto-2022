@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% block content %}
+{{ super() }}
+
+<script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+<script src="https://libs.zappar.com/zappar-aframe/0.3.29/zappar-aframe.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<style>
+    .fixed-bottom{
+        background-image: linear-gradient(rgba(255,255,255,0), rgb(255,255,255));
+    }
+    .fixed-top{
+        background-image: linear-gradient(rgb(255,255,255), rgba(255,255,255,0));
+    }
+    .nav-link{
+        background-color: #fff;
+    }
+    .btn{
+        z-index: -1 !important;
+        margin-top: 100px !important;
+    }
+    canvas{
+        max-width: 100%;
+        max-height: 100%;
+    }
+</style>
+<!-- <script>
+    function initElement() {
+      var p = document.getElementById("foo");
+      // NOTE: showAlert(); или showAlert(param); так НЕ сработает.
+      // Нужно использовать ссылку на функцию, но не вызов функции.
+      p.onclick = showAlert;
+    };
+
+    function showAlert(event) {
+        var kak = "<a-entity id='text' geometry='primitive: face-mesh; face: #face-anchor' material='src:url({{url_for('static',filename='targets/12.png')}}); transparent: true;'></a-entity>"
+        document
+            .getElementById("face-anchor")
+            .insertAdjacentHTML("beforeend", kak);
+    }
+</script> -->
+<script>
+    AFRAME.registerComponent("visibility-changer", {
+      init: function () {
+        this.el.setAttribute("visible", false);
+        this.el.sceneEl.addEventListener("zappar-visible", () =>
+          this.el.setAttribute("visible", true)
+        );
+      },
+    });
+  </script>
+<!-- Скриншоты -->
+<script>
+    function capture() {
+        document.querySelector('a-scene').components.screenshot.capture('perspective')
+    }
+</script>
+<body onload="initElement();" id='capture'>
+<div class="container">
+    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+            <!-- <a-scene>
+                <a-entity zappar-permissions-ui id="permissions"></a-entity>
+                <a-entity zappar-compatibility-ui id="compatibility"></a-entity>
+                <a-camera zappar-camera="user-facing: true;" />
+                <a-entity zappar-face id="face-anchor">
+                    <a-entity visible="false" id='but' geometry="primitive: face-mesh; face: #face-anchor" material="src:url({{url_for('static',filename='12.png')}}); transparent: true;"></a-entity> 
+                     <a-entity id='text' geometry="primitive: face-mesh; face: #face-anchor" material="src:url({{url_for('static',filename='12.png')}}); transparent: true;"></a-entity>                    
+                </a-entity>
+            </a-scene> -->
+        </div>
+    </div>
+    <div id="content">
+        <!-- CONTENT -->
+    </div> 
+    <!--//-->
+    <div id="loading" style="display: none"> 
+        Идет загрузка... 
+        </div> 
+        <!-- <a-scene id="scene" cursor="rayOrigin: mouse"> 
+            <a-assets> 
+              <a-asset-item id="ship" src="{{ url_for('static',filename='shipship.glb') }}"> </a-asset-item>      
+            </a-assets> 
+             
+            <a-entity zappar-permissions-ui="" id="permissions"></a-entity> 
+            <a-entity zappar-compatibility-ui="" id="compatibility"></a-entity> 
+            <a-camera zappar-camera=" user-facing: true;" /> 
+            <a-entity zappar-face id="my-face-tracker"> 
+              <a-entity zappar-head-mask="face:#my-face-tracker;"></a-entity 
+                ><a-entity 
+                  gltf-model="#ship" 
+                  position="0 2 -2" 
+                  scale="0.15 0.15 0.15" 
+                  animation="property:rotation; to: 0 360 0 ;dur:15000;loop:true;easing:linear" 
+                ></a-entity 
+              ></a-entity> 
+          </a-scene>   -->
+          <div id="loading" style="display: none">Идет загрузка...</div>
+    <nav class="fixed-top">
+        <ul class="nav nav-pills d-flex justify-content-between">
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:capture()"><span class="material-icons-outlined">screenshot</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{url_for('menu')}}"><span class="material-icons-outlined">login</span></a>
+            </li>
+        </ul>
+    </nav>
+    <div class="example cursor" id="example-1">Click to update</div>
+    <nav class="fixed-bottom">
+        <ul class="nav nav-pills mb-1 d-flex justify-content-between center mx-4" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button onclick="showContent('mask1')" class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true"><span class="material-icons-outlined">3d_rotation</span></button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button onclick="showContent('mask2')" class="nav-link" id="foo" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false"><span class="material-icons-outlined">face</span></button>
+            </li>
+            
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false"><span class="material-icons-outlined">videogame_asset</span></button>
+            </li>
+          </ul>          
+    </nav>
+</div>
+<script>
+    function showContent(link) {
+    var cont = document.getElementById('content'); 
+    var loading = document.getElementById('loading');
+        $('#hide_spoiler').css('display','block');
+        $('#show_spoiler').css('display','none');
+    cont.innerHTML = loading.innerHTML;
+    if( http )  
+    { http.open('get', link);
+        http.onreadystatechange = function ()  
+        {   if(http.readyState == 4)  
+            {   cont.innerHTML = http.responseText;  }    } 
+        http.send(null);
+        } 
+    else  
+    {  document.location = link;   }  } 
+// ajax объект
+function createRequestObject()  
+{  try { return new XMLHttpRequest() } 
+    catch(e)  
+    {  try { return new ActiveXObject('Msxml2.XMLHTTP') } 
+        catch(e)  
+        {   try { return new ActiveXObject('Microsoft.XMLHTTP') } 
+            catch(e) { return null; }   } } }
+
+    function hideContent() { 
+    var cont = document.getElementById('content');
+        $('#hide_spoiler').css('display','none');
+        $('#show_spoiler').css('display','block');
+    cont.innerHTML = '';   
+    } 
+</script>
+{% endblock %}
+</body>

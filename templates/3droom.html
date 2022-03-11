@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-assets> 
+        <!-- <a-asset-item id="3droom" src="https://cdn.glitch.global/f3e2bcc4-9ace-42d1-b67b-0a51a88b30c4/3droom.glb?v=1646953777969"/> -->
+        <a-asset-item id="3droom" src="{{ url_for('static',filename='portal/3droom.glb') }}"/>
+     </a-assets> 
+    <a-scene>
+     
+        <a-entity
+        scale="5 5 5"
+        id="model"
+        gltf-model="#3droom"
+        rotate="0 0 0"
+        position="0 -15 0"
+        animation-mixer="clip: null"
+        mixin="rotate"
+      ></a-entity>
+      
+      <a-sky color="#707070"></a-sky>
+    </a-scene>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+{{ super() }}
+<style>
+    .logotip{
+        width: 13em;
+    }
+    .nav-link{
+        color: #fff;
+    }
+    img{
+        width: 20em;
+    }
+</style>
+<div class=" col-12 col-lg-4 container">
+    <img src="../static/logo.png" class="logotip center mt-3" alt="Логотип" srcset="" width="100px" width="50px">
+    <div class="tab-content d-lg-none d-xl-none d-xxl-none" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-budka" role="tabpanel" aria-labelledby="nav-budka-tab">
+            <div class="center">
+                <img class="center mt-5" src="../static/menu/budka.png" alt="">
+                <h1 class="lead text-center">Самые интересные маски тут!</h1>
+                <a href="{{url_for('budka')}}" class="btn btn-danger center">Продолжить</a>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-galery" role="tabpanel" aria-labelledby="nav-galery-tab">
+            <div class="center">
+                <img class="center mt-5" src="../static/menu/galery.png" alt="">
+                <h1 class="lead text-center">Попробуйте новую галерею!</h1>
+                <a href="{{url_for('galery')}}" class="btn btn-danger center">Продолжить</a>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-portal" role="tabpanel" aria-labelledby="nav-portal-tab">
+            <div class="center">
+                <img class="center mt-5" src="../static/menu/portal.png" alt="">
+                <h1 class="lead text-center">Погрузитесь в виртуальную реальность!</h1>
+                <a href="{{url_for('portals')}}" class="btn btn-danger center">Продолжить</a>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-gid" role="tabpanel" aria-labelledby="nav-gid-tab">
+            <div class="center">
+                <img class="center mt-5" src="../static/menu/gid.png" alt="">
+                <h1 class="lead text-center">Экскурсовод в прямо в телефоне!</h1>
+                <a href="{{url_for('gid')}}" class="btn btn-danger center">Продолжить</a>
+            </div>
+        </div>
+    </div>
+    <h1>
+        {% if current_user.is_authenticated:%}
+        <div class="fixed-bottom mb-5 col-12 col-lg-4 center d-none d-md-block d-xl-block d-xxl-block">
+            <a href="statsadm" class="btn btn-danger mx-1 center" style="">Панель администратора</a>
+        </div>
+
+        {%endif%}
+    </h1>
+    <nav class="fixed-bottom d-lg-block">
+        <div class="nav nav-tabs col-12 col-lg-4 d-flex flex-row justify-content-between center" id="nav-tab" role="tablist">
+          <button class="nav-link active" id="nav-budka-tab" data-bs-toggle="tab" data-bs-target="#nav-budka" type="button" role="tab" aria-controls="nav-budka" aria-selected="true">Фотобудка</button>
+          <button class="nav-link" id="nav-galery-tab" data-bs-toggle="tab" data-bs-target="#nav-galery" type="button" role="tab" aria-controls="nav-galery" aria-selected="false">Галерея</button>
+          <button class="nav-link" id="nav-portal-tab" data-bs-toggle="tab" data-bs-target="#nav-portal" type="button" role="tab" aria-controls="nav-portal" aria-selected="false">Портал</button>
+          <button class="nav-link" id="nav-gid-tab" data-bs-toggle="tab" data-bs-target="#nav-gid" type="button" role="tab" aria-controls="nav-gid" aria-selected="false">Гид</button>
+          <!-- <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false"></button> -->
+        </div>
+      </nav>
+      
+</div>
+  
+{% endblock %}

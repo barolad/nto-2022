@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% block content %}
+{{ super() }}
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://libs.zappar.com/zappar-aframe/0.3.29/zappar-aframe.js"></script>
+    <link
+      rel="icon"
+      href="https://cdn.glitch.global/614e4f3c-a34c-4c25-bf96-ab4952d8f69f/christmas-tree%20logo.png"
+    />
+    <meta charset="utf-8" />
+    <title>Галерея</title>
+    <style>
+      :root {
+        --button-bg: #90e4be;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+      }
+      
+    
+    </style>
+
+    <script>
+      AFRAME.registerComponent("visibility-changer", {
+        init: function () {
+          this.el.setAttribute("visible", false);
+          this.el.sceneEl.addEventListener("zappar-visible", () =>
+            this.el.setAttribute("visible", true)
+          );
+        },
+      });
+      AFRAME.registerComponent("collider-check", {
+        dependencies: ["raycaster"],
+        init: function () {
+          this.el.addEventListener("raycaster-intersection", function () {
+            // When the object is detected, play the animation
+            const model = document.getElementById("model");
+            model.setAttribute("animation-mixer", "clip:null");
+            model.setAttribute(
+              "animation-mixer",
+              "clip: Armature|mixamo.com|Layer0; repetitions : 1"
+            );
+          });
+        },
+      });
+      
+    </script>
+  </head>
+  <body>
+    <p> Отсканируйте метку</p>
+    
+    <a-scene 
+             loading-screen="backgroundColor: #344A60" 
+             cursor="rayOrigin: mouse; fuse: false"
+             raycaster="objects: .raycastable">
+    
+      <a-entity zappar-permissions-ui id="permissions"></a-entity>
+    
+      <a-entity zappar-compatibility-ui id="compatibility"></a-entity>
+
+      <a-assets>
+        <a-asset-item id="model" src="{{ url_for('static',filename='galery/3d.glb') }}"/>
+        <img id="photo-one" src="{{ url_for('static',filename='galery/photo1.jpg') }}"/>
+        <img id="photo-two" src="{{ url_for('static',filename='galery/photo2.jpg') }}"/>
+        <img id="photo-three" src="{{ url_for('static',filename='galery/photo3.jpg') }}"/>
+        <img id="photo-four" src="{{ url_for('static',filename='galery/photo4.jpg') }}" />
+        <audio id="aud" src="{{ url_for('static',filename='galery/audio.mp3') }}" preload="auto"></audio>
+        <video id="vid" autoplay loop="true" src="{{ url_for('static',filename='galery/video.mp4') }}" />
+        <a-mixin
+          id="iconProperties"
+          scale="0.4 0.4 0.4"
+          material="alpha-test:0.5"
+          animation="property: scale; to: 0.5 0.5 0.5; dir: alternate; dur: 2000; loop:true;"
+        ></a-mixin>
+      </a-assets>
+
+
+      
+      <a-camera
+        zappar-camera
+        cursor="rayOrigin: mouse; fuse: false;"
+        raycaster="objects: .collidable"
+      ></a-camera>
+
+      
+      <a-entity zappar-image="target:{{ url_for('static',filename='targets/t_galery.zpt') }}">
+        <a-entity sound="src: #aud; autoplay: true;"></a-entity> 
+        <a-entity visibility-changer>
+          
+          <a-image
+            
+            animation="property: position; to: 4 0 0; loop: true; dur: 10000"
+            id="ph1"
+            src="#photo-one"
+            height="2"
+            width="3"
+            position="0 -4 0"
+            material="alpha-test:0.5"
+          ></a-image>
+
+          <a-image
+            animation="property: position; to: 0 4 0; loop: true; dur: 10000"
+            id="ph2"
+            src="#photo-two"
+            height="2"
+            width="3"
+            position="4 0 0"
+            material="alpha-test:0.5"
+          ></a-image>
+
+          <a-image
+            animation="property: position; to: -4 0 0; loop: true; dur: 10000"
+            id="ph3"
+            src="#photo-three"
+            height="2"
+            width="3"
+            position="0 4 0"
+            material="alpha-test:0.5"
+          ></a-image>
+
+          <a-image
+            animation="property: position; to: 0 -4 0; loop: true; dur: 10000"
+            id="ph4"
+            src="#photo-four"
+            height="2"
+            width="3"
+            position="-4 0 0"
+            material="alpha-test:0.5"
+          ></a-image> 
+          
+          <a-video
+            animation="property: rotation; from: 0 -45 0; to: 0 45 0; dur: 10000; loop: true"
+            id="video"
+            src="#vid"
+            height="2"
+            width="3"
+            position="0 0 0"
+            material="alpha-test:0.5"
+          ></a-video>
+          
+          <a-entity
+            scale="50 50 50"
+            gltf-model="#model"
+            rotate="0 90 0"
+            position="4 4 0"
+            animation-mixer="clip: null"
+            mixin="rotate"
+            animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"
+          ></a-entity>
+        
+          <a-text 
+            font="kelsonsans" 
+            value="Welcome <3" 
+            width="10" 
+            position="-4 4 0"
+            rotation="0 15 0"
+            color="#ff0000"
+          ></a-text>
+          </a-entity>
+
+        </a-entity>
+
+
+    </a-scene>
+
+  <nav class="fixed-top">
+        <ul class="nav nav-pills d-flex justify-content-between">
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:capture()"><span class="material-icons-outlined">screenshot</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{url_for('menu')}}"><span class="material-icons-outlined">login</span></a>
+            </li>
+        </ul>
+    </nav>
+  </body>
+</html>
+{%endblock%}
