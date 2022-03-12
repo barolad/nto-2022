@@ -13,7 +13,7 @@
     }
 </style>
 <div class=" col-12 col-lg-4 container">
-    <img src="../static/logo.png" class="logotip center mt-3" alt="Логотип" srcset="" width="100px" width="50px">
+    <a href= "{{url_for('index')}}"><img src="../static/logo.png" class="logotip center mt-3" alt="Логотип" srcset="" width="100px" width="50px"></a>
     <div class="tab-content d-lg-none d-xl-none d-xxl-none" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-budka" role="tabpanel" aria-labelledby="nav-budka-tab">
             <div class="center">
@@ -39,7 +39,7 @@
         <div class="tab-pane fade" id="nav-gid" role="tabpanel" aria-labelledby="nav-gid-tab">
             <div class="center">
                 <img class="center mt-5" src="../static/menu/gid.png" alt="">
-                <h1 class="lead text-center">Экскурсовод в прямо в телефоне!</h1>
+                <h1 class="lead text-center">Экскурсовод прямо в телефоне!</h1>
                 <a href="{{url_for('gid')}}" class="btn btn-danger center">Продолжить</a>
             </div>
         </div>
@@ -47,7 +47,7 @@
     <h1>
         {% if current_user.is_authenticated:%}
         <div class="fixed-bottom mb-5 col-12 col-lg-4 center d-none d-md-block d-xl-block d-xxl-block">
-            <a href="statsadm" class="btn btn-danger mx-1 center" style="">Панель администратора</a>
+            <a href="statsadm" class="btn btn-danger mx-1 center">Панель администратора</a>
         </div>
 
         {%endif%}
