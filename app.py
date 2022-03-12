@@ -74,8 +74,6 @@ def marshrut():
         for i in data:
             all_m.append(i[1])
     prom=str(all_m[arg])
-    print(prom)
-    print(prom)
     start=list('0'+prom)
     Exibits=[]
     data = dbase.getExibitData()
@@ -145,15 +143,11 @@ def stats():
     date=(str(datetime.datetime.now())[:-7])
     # print(date)
     datedate=date[:-9]
-    # dateti=dateti.split(':')
-    # dateti=str(dateti[0]+dateti[1])
-    # print(datedate)
-    # print(dateti)
-    # print(datedate+dateti)
+
     for k in range(0,len(O)):
-        print("EHF")
+        
         if date>O[k][1] and datedate==str(O[k][1][:-9]):
-            print(O[k][1])
+            
             if O[k][2]==1:
                count1+=1
                love1+=O[k][4]+O[k][5]+O[k][6]
@@ -180,7 +174,7 @@ def stats():
                 love8 += O[k][4] + O[k][5] + O[k][6]
     vsego=count1+count2+count3+count4+count5+count6+count7+count8
     I=[count1,count2,count3,count4,count5,count6,count7,count8]
-    print(I)
+
     if count1!=0:
         love1=love1//count1 //3
     if count2 != 0:
@@ -200,16 +194,12 @@ def stats():
     L=[love1,love2,love3,love4,love5,love6,love7,love8]
     ROMA=[]
 
-    for z in range(0,len(O)):
-        print(O[z][4],O[z][5],O[z][6])
-
     for p in range(0,8):
         itog = {}
         itog["io"]=I[p]
         itog['no']=P[p]
         itog['lo']=L[p]
         ROMA.append(itog)
-    print(ROMA)
     start = request.args.getlist("action")
     if start[0]=='po_u':
         ROMA=sorted(ROMA, key=lambda x: x['io'])
@@ -223,7 +213,6 @@ def stats():
         ROMA = ROMA[::-1]
     else:
         ROMA=ROMA
-    print(start)
     return render_template('stats.html', title='Статистика', ROMA=ROMA, I=I, P=P, vsego=vsego)
 
 
